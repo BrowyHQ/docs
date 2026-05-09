@@ -1,0 +1,119 @@
+---
+title: Architecture — DevTools CLI
+description: How the Browy DevTools panel REPL is built — slash commands, autocomplete, history, model picker.
+---
+
+import { CardGrid, Card, LinkCard, Aside } from '@astrojs/starlight/components';
+
+The DevTools CLI is a small, dependency-free TypeScript-style
+implementation living in `extension/panel.{html,js,css}`. It mounts
+inside the DevTools panel registered by `extension/devtools.js`.
+
+For *how to use it*, see [the DevTools CLI page](/docs/devtools-cli/).
+This page is for contributors curious about how it's built.
+
+## Files
+
+| File | Role |
+|---|---|
+| `extension/devtools.html` | Tiny shell that loads `devtools.js` |
+| `extension/devtools.js` | Calls `chrome.devtools.panels.create('Browy', icon, 'panel.html')` |
+| `extension/panel.html` | Toolbar + log + autocomplete listbox + textarea |
+| `extension/panel.css` | The retro green-on-black aesthetic |
+| `extension/panel.js` | All behavior — REPL, slash commands, port glue |
+
+## The REPL loop
+
+`panel.js` keeps a single `<div id="log">` of "rows" (banner / dim /
+ok / err / model / tool / output). The textarea below is the prompt.
+On `Enter`:
+
+1. If the input starts with `/`, dispatch to the slash-command
+   registry (`COMMANDS` array near line 200 of `panel.js`).
+2. Otherwise, send `{type: 'user', text, sessionId}` over the port to
+   the [native host](/docs/arch-backend/), append a row, and stream
+   `delta` chunks into a single growing assistant row.
+
+On `Esc` mid-flight, the panel posts `{type: 'cancel'}` to the host
+and shows a dim "cancelled" row.
+
+## Slash-command registry
+
+Each command is a `{name, help, run}` triple:
+
+```js
+const COMMANDS = [
+  { name: '/help',  help: 'Show available commands',           run: cmdHelp },
+  { name: '/clear', help: 'Clear the scrollback (Ctrl+L)',     run: () => clearLog() },
+  { name: '/model', help: 'Show or pick the active model',     run: cmdModel },
+  { name: '/login', help: 'Sign in to GitHub Copilot',         run: cmdLogin },
+];
+```
+
+`/?` → `/help` and `/models` → `/model` are aliases handled at
+dispatch time. New commands plug in by appending one entry.
+
+## Autocomplete
+
+The listbox `#ac` shows matching `COMMANDS` entries as you type a
+slash. Arrow keys move the selection, `Tab` / `Enter` accepts.
+Implemented as a simple substring match on `name` plus its first-line
+`help`.
+
+## Model picker
+
+`/model` with no argument fetches the model list from the host
+(`{type: 'list_models'}` → host calls Copilot SDK `listModels()`) and
+renders each as a clickable row. Clicking sends `/model <id>` for you.
+The toolbar's `#model` badge updates on `model_changed`.
+
+## History
+
+Up / down arrows when the input is empty browse a stack of past
+prompts. Stored in-memory only — DevTools panels are recreated on
+every page reload, so history is per-session.
+
+## Per-target binding
+
+Because each DevTools panel is bound to a single inspected target,
+the panel's `sessionId` is namespaced with the inspected URL. Open
+DevTools on three tabs → three independent agent sessions.
+
+This is intentional: it makes the DevTools CLI a per-page tool, in
+the same way the inspector is per-page.
+
+## Why a separate `panel.js`?
+
+We could have rendered the REPL in the side panel UI and called it
+"DevTools mode". We didn't, because:
+
+- DevTools panels live alongside the inspector, network, and console
+  — context that power users *want* next to the agent.
+- The DevTools panel UI primitives (toolbar buttons, theming, host
+  shortcuts like `Ctrl+L` to clear) are subtly different from a
+  regular side panel — keeping them separate avoids `if (devtools)`
+  forks throughout the side-panel code.
+- It lets the two surfaces evolve independently: the side panel can
+  stay friendly and chat-shaped; the DevTools CLI can grow more
+  power-user features (REPL co-coding, attach to running session,
+  headless `browy run`) without complicating the side panel.
+
+## Coming soon
+
+The DevTools CLI is the launching pad for Browy's "power-user surface"
+roadmap. Tracked on the
+[GitHub project board](https://github.com/orgs/BrowyHQ/projects):
+
+- **REPL co-coding** — explicit handoff syntax (`:edit`, `:continue`)
+  for pair-programming with the agent on a single file
+- **`browy run`** — standalone terminal binary
+- **Attach to running session** — debug view of an active side-panel
+  agent
+
+## See also
+
+<CardGrid>
+  <LinkCard title="DevTools CLI (user guide)" href="/docs/devtools-cli/" description="Slash commands, model picker, keyboard." />
+  <LinkCard title="Architecture — native host" href="/docs/arch-backend/" description="The other end of the port." />
+  <LinkCard title="Architecture — extension" href="/docs/arch-frontend/" description="How DevTools panels fit into the wider extension." />
+</CardGrid>

@@ -1,0 +1,114 @@
+---
+title: Architecture — extension (frontend)
+description: How the Browy MV3 extension is laid out — service worker, side panel, DevTools panel, content scripts, native-messaging port.
+---
+
+import { Aside, CardGrid, Card, LinkCard } from '@astrojs/starlight/components';
+
+The Browy extension is a Chromium MV3 extension that hosts three UI
+surfaces (side panel, DevTools panel, options page) and talks to the
+[native host](/docs/arch-backend/) over a single native-messaging port.
+
+## File layout
+
+```
+extension/
+├── manifest.json           ← MV3 manifest, permissions, background SW
+├── background.js           ← service worker — port owner, tool dispatch
+├── sidepanel.html / .js    ← chat UI (default surface)
+├── devtools.html / .js     ← registers the DevTools panel
+├── panel.html / .js / .css ← the actual DevTools CLI surface
+├── options.html / .js      ← Settings (model, tools, install help)
+├── content/                ← injected scripts (snapshot, evaluate_js)
+└── icons/                  ← toolbar + store assets
+```
+
+## The port
+
+A single `chrome.runtime.connectNative('com.browy.host')` port lives
+on the service worker. It's the one and only channel to the host.
+All three UI surfaces post `chrome.runtime.sendMessage` to the
+service worker, which forwards as native-messaging frames.
+
+<Aside type="note">
+MV3 service workers can be killed by Chrome at any moment. The SW
+re-establishes the port on demand and re-emits a `host_ready` event.
+The side panel and DevTools panel both wait for `host_ready` (with a
+safety timeout) before enabling their inputs.
+</Aside>
+
+## UI surfaces
+
+<CardGrid>
+  <Card title="Side panel — `sidepanel.html`" icon="seti:html">
+    The default chat UI. Persistent chat history, model badge, model
+    picker, slash commands, the past-chats drawer, the retro mascot.
+    Most users live here.
+  </Card>
+  <Card title="DevTools panel — `panel.html`" icon="seti:plan">
+    The terminal-style REPL. Registered by `devtools.js` via
+    `chrome.devtools.panels.create('Browy', …)`. Shares the agent
+    backend with the side panel; bound to the inspected target.
+    See the [DevTools CLI page](/docs/devtools-cli/).
+  </Card>
+  <Card title="Options — `options.html`" icon="setting">
+    Model picker, tool toggles, sign-in status, install help when
+    the host isn't reachable. Opens via Chrome's standard extension
+    options entry or Browy's toolbar menu.
+  </Card>
+</CardGrid>
+
+## Tool execution
+
+When the host says *"call `snapshot` with these args"*, the SW:
+
+1. Routes the call to the right surface (the surface that owns the
+   active session). Usually it's the side panel or DevTools panel.
+2. The surface uses `chrome.debugger.attach(target, '1.3')` against
+   the focused tab if it isn't already attached.
+3. Runs the relevant CDP command (`Accessibility.getFullAXTree`,
+   `Input.dispatchMouseEvent`, `Network.enable`, etc.) and shapes
+   the result into the tool's expected return type.
+4. Posts the result back over the port.
+
+The Yellow Banner of Doom (Chrome's *"Browy started debugging…"*
+notice) is Chrome's mandatory disclosure for any extension using
+the DevTools Protocol. We can't and don't try to suppress it — see
+[Permissions → debugger](/docs/permissions/#debugger-).
+
+## Storage
+
+Everything user-visible is in `chrome.storage.local`:
+
+- **Chats**: `chat:<id>` → `{messages, sessionId, createdAt, title}`
+- **Active chat**: `active_chat_id`
+- **Settings**: `settings.model`, `settings.theme`,
+  `settings.reasoning_effort`, `settings.tools` (per-tool toggles)
+- **Last tab**: `lastActiveTabId` — used to restore which tab the
+  agent acts on after Chrome restarts
+
+Nothing leaves the local profile. There is no remote sync.
+
+## Content scripts
+
+The `extension/content/` scripts are injected on demand for the
+`evaluate_js` and `query_dom` tools. Most agent perception goes
+through CDP rather than content scripts, because CDP gives access to
+shadow DOM, iframes, and the accessibility tree without
+cross-origin friction.
+
+## Build
+
+The extension ships **as-is** — no bundler step. `extension/` is a
+plain Chromium extension folder. The installer copies it to your
+Downloads directory; you load it with `chrome://extensions` →
+*Load unpacked*. When the Chrome Web Store listing goes live, the
+same files are packaged into the CRX you download from the store.
+
+## See also
+
+<CardGrid>
+  <LinkCard title="Architecture — native host (backend)" href="/docs/arch-backend/" description="The host process, tool dispatch, and the SDK loop." />
+  <LinkCard title="Architecture — DevTools CLI" href="/docs/arch-cli/" description="Internals of the DevTools panel REPL." />
+  <LinkCard title="Permissions" href="/docs/permissions/" description="Why each manifest permission is required." />
+</CardGrid>

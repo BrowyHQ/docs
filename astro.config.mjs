@@ -40,6 +40,14 @@ export default defineConfig({
           ],
         },
         {
+          label: 'Architecture',
+          items: [
+            { label: 'Native host (backend)', slug: 'arch-backend' },
+            { label: 'Extension (frontend)', slug: 'arch-frontend' },
+            { label: 'DevTools CLI internals', slug: 'arch-cli' },
+          ],
+        },
+        {
           label: 'Project',
           items: [
             { label: 'Changelog', slug: 'changelog' },
