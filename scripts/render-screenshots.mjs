@@ -45,6 +45,7 @@ const SCENARIOS = [
   {
     file: 'panel-empty.png',
     desc: 'Fresh side panel, no chat yet',
+    height: 380,
     infobar: { browser: 'Chrome', tabs: '7 tabs', title: 'New Tab', host: 'live' },
     msgsHTML: '',
     keepEmpty: true,
@@ -52,6 +53,7 @@ const SCENARIOS = [
   {
     file: 'panel-summarize.png',
     desc: 'Summarize Wikipedia article',
+    height: 660,
     infobar: { browser: 'Chrome', tabs: '7 tabs', title: 'Photosynthesis — Wikipedia', host: 'live' },
     msgsHTML:
       userBub('Summarize this page in 5 bullets.') +
@@ -70,6 +72,7 @@ const SCENARIOS = [
   {
     file: 'panel-fillform.png',
     desc: 'Fill out a form',
+    height: 600,
     infobar: { browser: 'Chrome', tabs: '4 tabs', title: 'Sign up — Linear', host: 'live' },
     msgsHTML:
       userBub("My name is Alex Doe, my email is alex@example.com. Fill out this form with that info — leave the password field for me. Don't submit.") +
@@ -83,6 +86,7 @@ const SCENARIOS = [
   {
     file: 'panel-network.png',
     desc: 'Inspect network log',
+    height: 540,
     infobar: { browser: 'Edge', tabs: '12 tabs', title: 'Dashboard — Linear', host: 'live' },
     msgsHTML:
       userBub("What's the slowest API call on this page when I refresh? Show me URL, status, and time.") +
@@ -98,6 +102,7 @@ status 200 — 1,847 ms</code></pre>
   {
     file: 'panel-evaluate.png',
     desc: 'evaluate_js to find missing aria-labels',
+    height: 580,
     infobar: { browser: 'Brave', tabs: '9 tabs', title: 'GitHub · Where the world builds…', host: 'live' },
     msgsHTML:
       userBub('Find every `<button>` on this page that has no aria-label and tell me what it says.') +
@@ -116,6 +121,7 @@ status 200 — 1,847 ms</code></pre>
   {
     file: 'panel-signin.png',
     desc: 'Sign-in CTA on auth error',
+    height: 360,
     infobar: { browser: 'Chrome', tabs: '7 tabs', title: 'New Tab', host: 'err' },
     msgsHTML:
       userBub('what can you see on this page?') +
@@ -127,20 +133,24 @@ status 200 — 1,847 ms</code></pre>
   },
 ];
 
+// Auto-fit height: each scenario can specify `height` or we measure
+// the natural content height after injection.
+const DEFAULT_VIEWPORT = { width: 400, height: 720 };
+
 const browser = await chromium.launch();
 const ctx = await browser.newContext({
-  viewport: { width: 400, height: 720 },
+  viewport: DEFAULT_VIEWPORT,
   deviceScaleFactor: 2,
 });
 const page = await ctx.newPage();
 
-// Read sidepanel.html and strip ALL scripts so nothing tries to ws://localhost
 import { readFileSync } from 'node:fs';
 let html = readFileSync(SIDEPANEL, 'utf8');
 html = html.replace(/<script[\s\S]*?<\/script>/gi, '');
 
 for (const s of SCENARIOS) {
   console.log(`-> ${s.file} (${s.desc})`);
+  await page.setViewportSize({ width: 400, height: s.height || 720 });
   await page.setContent(html, { waitUntil: 'domcontentloaded' });
   await page.waitForTimeout(120);
 
@@ -175,6 +185,10 @@ for (const s of SCENARIOS) {
   }, s);
 
   await page.waitForTimeout(120);
+
+  // Auto-fit disabled in favor of explicit per-scenario heights (above).
+  // The flex: 1 .msgs stretches to fill viewport, so scrollHeight measurement
+  // doesn't shrink the panel. Per-scenario tuned heights look cleaner.
 
   await page.screenshot({
     path: join(OUT_DIR, s.file),
