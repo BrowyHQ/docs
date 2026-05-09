@@ -120,16 +120,60 @@ the result. Top-level `await` works.
 </div>
 </div>
 
-## Slash commands
+## Toolbar
 
-Type `/` in the chat to see them all.
+The side panel's titlebar (top right) hosts four controls:
 
-| Command | What it does |
+| Button | What it does |
 |---|---|
-| `/login` | Re-trigger the GitHub Copilot device-flow sign-in |
-| `/clear` | Wipe the current chat (the persistent memory survives) |
-| `/chats` | Open the past-chats panel |
-| `/help` | Show this list |
+| **Stop** (red ■) | Cancel the in-flight agent turn. Same as `Esc`. |
+| **New chat** | Save the current conversation to history and start fresh. |
+| **Chats** | Open the past-chats overlay — searchable list of every prior session, with delete + click-to-resume. |
+| **Settings** | Opens the extension Options page (model picker, [tool toggles](/docs/tools/#configurable-per-tool-toggles), authentication, diagnostics). |
+
+The status bar underneath shows the active browser, tab title, and a
+**`N/M`** chip — connected vs. installed browsers. Click Settings to
+launch a browser that's installed but not yet connected.
+
+## Input
+
+| Key | Action |
+|---|---|
+| `Enter` | Send the message |
+| `Shift+Enter` | Newline in the prompt |
+| `Esc` | Cancel the in-flight turn |
+
+The prompt auto-grows as you type, supports multi-line input, and
+renders Markdown in the agent's replies (code blocks, lists, links,
+tables).
+
+## During a turn
+
+- **Streaming text** appears live as the model generates it.
+- **Tool calls** render as inline cards (`▸ click_index { index: 14 }`)
+  — click to expand and see arguments + result. Failed tool calls are
+  surfaced with their error.
+- **Reasoning** (when the model emits it) shows in a dim block above
+  the answer.
+- **Auth errors** surface an inline "Sign in to GitHub Copilot" button —
+  no need to dig into Settings.
+
+If the native host disconnects, a banner at the top of the panel offers
+a one-click recheck (and tells you how to install the host if it's
+missing).
+
+## Past chats
+
+Each conversation is saved to `chrome.storage.local` with its title,
+preview, and timestamp. Open the **Chats** overlay to:
+
+- Filter by title or preview text
+- Click a row to resume (the agent re-binds to that session id)
+- Delete (×) to remove a conversation from history
+- **+ new chat** to start a fresh one
+
+Chats are local to your browser profile — they never leave your
+machine.
 
 ## What's next?
 

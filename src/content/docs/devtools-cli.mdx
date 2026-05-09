@@ -43,13 +43,52 @@ side panel — only with a CLI surface that power users tend to prefer.
 
 ## Slash commands
 
+Type `/` to autocomplete. Aliases: `/?` → `/help`, `/models` → `/model`.
+
+### Session
+
 | Command | What it does |
 |---|---|
-| `/help` | Show available commands (alias: `/?`) |
+| `/help` | Show all available commands |
 | `/clear` | Clear the scrollback (also `Ctrl+L`) |
-| `/model` | Show current model — bare command also lists every Copilot model so you can click one to switch |
+| `/new` | Start a new conversation |
+| `/reset` | Abandon this session and start fresh |
+| `/cancel` | Cancel the in-flight agent turn (also `Esc`) |
+| `/sessions` | List recent chat sessions |
+| `/copy` | Copy the last response to clipboard |
+| `/export` | Download the scrollback as a `.txt` file |
+| `/history` | Show recent input history |
+
+### Model & auth
+
+| Command | What it does |
+|---|---|
+| `/model` | Show current model + open the live picker |
 | `/model <id>` | Switch model directly, e.g. `/model claude-haiku-4.5` |
 | `/login` | Trigger the GitHub Copilot device-flow sign-in |
+
+### Page introspection (no agent turn)
+
+These commands talk straight to the inspected page via the DevTools
+runtime — no LLM call, no token cost.
+
+| Command | What it does |
+|---|---|
+| `/url` | Print the inspected page URL |
+| `/title` | Print the inspected page `<title>` |
+| `/tabs` | List open browser tabs (click a row to switch) |
+| `/snapshot` | Quick page summary (title, URL, headings) |
+| `/dom <selector>` | `querySelectorAll` summary for a CSS selector |
+| `/eval <expr>` | Eval JavaScript in the inspected page |
+
+### UI & meta
+
+| Command | What it does |
+|---|---|
+| `/theme [auto\|dark\|light]` | Set the panel theme |
+| `/version` | Show version info |
+| `/feedback` | Open the feedback page on GitHub |
+| `/exit` | Close-this-panel hint (close DevTools to actually exit) |
 
 Models the picker exposes today (subject to your Copilot subscription):
 
@@ -83,21 +122,21 @@ The model badge in the toolbar always shows the active choice.
 
 ## Coming soon to the CLI
 
-We're growing the DevTools CLI into a more full-featured power-user
-surface. Tracked in the open on the
+Tracked in the open on the
 [GitHub project board](https://github.com/orgs/BrowyHQ/projects).
 
 - **REPL co-coding**: agent and human alternate edits on the same file,
   with explicit handoffs (`:edit`, `:continue`).
-- **`browy run`**: a standalone terminal binary that runs the agent
-  against the current shell, no browser required — a `gh copilot` /
-  `claude code` alternative powered by your existing Copilot subscription.
 - **Attach to running session**: open a debug view of an active Browy
   side-panel session from the terminal.
+
+For a true terminal coding agent (no browser, full file/shell toolset),
+see [**`browy run`**](/docs/browy-run/) — already shipped.
 
 ## See also
 
 <CardGrid>
+  <LinkCard title="Terminal CLI (browy run)" href="/docs/browy-run/" description="Headless coding agent in your terminal — no browser needed." />
   <LinkCard title="Tools the agent has" href="/docs/tools/" description="Every tool the DevTools CLI agent can call." />
   <LinkCard title="First chat" href="/docs/first-chat/" description="Things to try in either the side panel or the DevTools CLI." />
   <LinkCard title="Install" href="/docs/install/" description="Get the extension + native host running in two minutes." />
