@@ -1,61 +1,46 @@
 ---
-title: Roadmap
-description: What's planned for Browy.
+title: Roadmap & contributing
+description: Browy is built in the open — the real roadmap lives on GitHub.
 ---
 
-import { Badge, LinkCard, CardGrid, Card, Aside } from '@astrojs/starlight/components';
+import { CardGrid, LinkCard, Aside } from '@astrojs/starlight/components';
 
-<Aside type="tip">
-Browy is open source — vote with reactions on
-[GitHub issues](https://github.com/BrowyHQ/browy/issues), or open new
-ones.
+Browy is open source and built in the open. Rather than maintain a
+hand-curated roadmap page that drifts out of date, the live state of
+the project lives on GitHub — same place the work happens.
+
+<CardGrid>
+  <LinkCard
+    title="Project board"
+    href="https://github.com/orgs/BrowyHQ/projects"
+    description="What's in flight, what's queued, what just shipped." />
+  <LinkCard
+    title="Open issues"
+    href="https://github.com/BrowyHQ/browy/issues"
+    description="Bugs, ideas, and feature requests. 👍 to vote." />
+  <LinkCard
+    title="Discussions"
+    href="https://github.com/BrowyHQ/browy/discussions"
+    description="Bigger questions, design proposals, show-and-tell." />
+  <LinkCard
+    title="Milestones"
+    href="https://github.com/BrowyHQ/browy/milestones"
+    description="Grouped issues for upcoming releases." />
+  <LinkCard
+    title="Changelog"
+    href="/docs/changelog/"
+    description="What landed in each release." />
+</CardGrid>
+
+<Aside type="tip" title="Want to influence priorities?">
+The fastest way to push something up the queue is to **open an issue
+with a clear use case**, or react with 👍 on an existing one. We watch
+both.
 </Aside>
 
-## Now <Badge text="In progress" variant="caution" />
+## Contributing
 
-<CardGrid>
-  <Card title="Chrome Web Store + Edge Add-ons listings" icon="rocket">
-    In review. One-click install from the official stores.
-  </Card>
-  <Card title="macOS and Linux native host builds" icon="laptop">
-    Today the installer is Windows-only. Cross-platform tarballs and
-    a SignPath signature for Windows are next up.
-  </Card>
-</CardGrid>
-
-## Next <Badge text="Planned" />
-
-<CardGrid>
-  <Card title="DevTools panel REPL" icon="seti:html">
-    Run agent commands from the DevTools panel alongside your normal
-    Inspector / Network / Console.
-  </Card>
-  <Card title="Vision-based action verification" icon="approve-check">
-    The agent double-checks its own click actually landed where it
-    expected, and self-corrects if not.
-  </Card>
-  <Card title="Better SPA navigation" icon="seti:javascript">
-    Smarter detection of single-page-app route changes so the snapshot
-    cache invalidates at the right time.
-  </Card>
-  <Card title="Scripted uninstaller" icon="error">
-    `browy uninstall` removes the host, the manifest, and (with
-    confirmation) the data root.
-  </Card>
-</CardGrid>
-
-## Later <Badge text="Ideas" variant="note" />
-
-<CardGrid>
-  <Card title="Cross-tab workflows" icon="seti:plan">
-    An agent that orchestrates work across multiple tabs explicitly
-    (open tab A, extract, switch to tab B, paste, …).
-  </Card>
-  <Card title="Recipe library" icon="open-book">
-    Save and replay common automations. Share recipes between users.
-  </Card>
-  <Card title="Custom-tool API" icon="setting">
-    Write a tool in JS, register it from the side panel, give the
-    agent access to your domain-specific helpers.
-  </Card>
-</CardGrid>
+Contributions are welcome. The repo's
+[`CONTRIBUTING.md`](https://github.com/BrowyHQ/browy/blob/main/CONTRIBUTING.md)
+covers the setup. Good first issues are tagged `good first issue` on
+the [issue tracker](https://github.com/BrowyHQ/browy/labels/good%20first%20issue).

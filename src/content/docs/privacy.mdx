@@ -74,63 +74,44 @@ asking the agent to "open this in a new tab" causes a navigation, or
 asking it to "save this to my Downloads" calls `chrome.downloads`).
 </Aside>
 
-## Secret redaction
+## You're in control of what you share
 
-Page content the agent sees is filtered for common secret shapes
-**at the moment of capture** — before it reaches the LLM, the log file,
-or the conversation history.
+Page content the agent sees comes from the active tab — DOM snapshots,
+console output, network logs, screenshots — and is sent to the LLM
+unmodified. **You decide** what tabs the agent runs against, what you
+type into chat, and what tools you enable in Settings.
 
-<CardGrid>
-  <Card title="Tokens" icon="approve-check">
-    JWTs (`eyJ…`), GitHub tokens (`ghp_`, `ghs_`, `gho_`, `ghu_`,
-    `ghr_`, `github_pat_`), OpenAI / Stripe / Anthropic-style
-    keys (`sk-`, `sk_live_`, `pk_live_`, `rk_live_`).
-  </Card>
-  <Card title="Cloud keys" icon="approve-check">
-    AWS access keys (`AKIA…`).
-  </Card>
-  <Card title="Headers" icon="approve-check">
-    `Authorization`, `Cookie`, `Set-Cookie`, `x-api-key`. `Bearer …`
-    token values.
-  </Card>
-  <Card title="OAuth params" icon="approve-check">
-    Query and URL-fragment params: `token`, `access_token`,
-    `refresh_token`, `id_token`, `api_key`, `password`, `secret`,
-    `client_secret`, `jwt`, `signature`, `code`.
-  </Card>
-</CardGrid>
+That includes things power users *want* to send: API keys for backend
+testing, OAuth redirect URLs, `Authorization` headers from a network
+trace. Browy doesn't second-guess you.
 
-<Aside type="caution">
-Redaction is best-effort and not a substitute for not pasting secrets
-into the browser. If you'd like additional patterns covered,
-[open an issue](https://github.com/BrowyHQ/browy/issues).
+<Aside type="tip" title="A few sensible defaults">
+Some of the GitHub Copilot SDK's most powerful built-in tools — host
+shell (`bash`), arbitrary HTTP (`web_fetch`), host filesystem
+(`read_file` / `write_file`) — are **off by default** and can be
+turned on per-tool in **Settings → Tools**. Default-on tools are the
+browser-driving ones in [Tools the agent has](/docs/tools/).
 </Aside>
 
-## What Browy never does
+## How Browy is built
 
 <CardGrid>
-  <Card title="No data exfiltration" icon="error">
-    Send any data to a Browy-operated server. There is none.
+  <Card title="No Browy backend" icon="rocket">
+    Browy operates no servers. Page content goes to **GitHub Copilot**
+    via the local CLI — same data path as `gh copilot` in a terminal.
   </Card>
-  <Card title="No background activity" icon="error">
-    Run continuously in the background. The agent acts only when you
-    send a message in the side panel.
+  <Card title="No background activity" icon="moon">
+    The agent acts only when you send a message. There is no background
+    crawler, no prefetch, no scraper.
   </Card>
-  <Card title="No silent crawling" icon="error">
-    Crawl, prefetch, or scrape pages you haven't asked it to operate on.
+  <Card title="No telemetry" icon="seti:lock">
+    No analytics SDK in the extension or the host. No phone-home.
+    Updates ship via the Web Stores (extension) or GitHub Releases
+    (CLI host).
   </Card>
-  <Card title="No host shell access" icon="error">
-    Expose the GitHub Copilot CLI's built-in file-system or shell tools
-    to the LLM — the SDK is locked to a strict browser-tools allowlist.
-  </Card>
-  <Card title="No phone-home" icon="error">
-    Updates ship via Chrome Web Store / Edge Add-ons (extension) or
-    GitHub Releases (native host CLI). No automatic update checks
-    against a Browy server.
-  </Card>
-  <Card title="No third-party scripts" icon="error">
-    The extension loads zero external scripts. Everything in the
-    side panel is bundled.
+  <Card title="No third-party scripts" icon="seti:javascript">
+    The extension loads zero external scripts. The side panel is fully
+    bundled.
   </Card>
 </CardGrid>
 

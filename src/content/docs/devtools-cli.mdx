@@ -1,0 +1,104 @@
+---
+title: Browy DevTools CLI
+description: A terminal-style agent REPL inside Chrome DevTools — slash commands, live model picker, the full Browy agent.
+---
+
+import { Aside, CardGrid, Card, LinkCard, Badge, Tabs, TabItem } from '@astrojs/starlight/components';
+import devtoolsPanel from '../../assets/screenshots/devtools-panel.png';
+import { Image } from 'astro:assets';
+
+<Badge text="Available now in v0.1.x" variant="success" />
+
+The Browy extension registers a **DevTools panel** that hosts a
+terminal-style REPL for the agent. Open Chrome DevTools on any page,
+click the **Browy** tab, and you have the same agent that runs in the
+side panel — only with a CLI surface that power users tend to prefer.
+
+<figure class="browy-frame">
+  <Image src={devtoolsPanel} alt="The Browy DevTools panel: a green-on-black REPL with /help, /model picker showing 19 models, and a status bar showing the active model and inspected page" />
+  <figcaption>The Browy DevTools CLI in action — <code>/model</code> shows 19 Copilot models, instant switch.</figcaption>
+</figure>
+
+## Why a CLI in DevTools?
+
+<CardGrid>
+  <Card title="It's where you already are" icon="seti:html">
+    Inspect the DOM, read the network panel, then ask the agent a
+    question — without leaving DevTools or context-switching to a
+    sidebar.
+  </Card>
+  <Card title="Terminal feel" icon="seti:shell">
+    Slash commands, history, autocomplete, `Ctrl+L` to clear, `Esc`
+    to cancel. If you live in `gh copilot` or `claude code`, this fits.
+  </Card>
+  <Card title="Per-page session" icon="approve-check">
+    The DevTools panel is bound to its inspected target — open one per
+    tab, run an agent per app, no cross-talk.
+  </Card>
+  <Card title="Same agent, same tools" icon="rocket">
+    It's the side-panel agent under a different UI. Snapshots, clicks,
+    network log, all of it.
+  </Card>
+</CardGrid>
+
+## Slash commands
+
+| Command | What it does |
+|---|---|
+| `/help` | Show available commands (alias: `/?`) |
+| `/clear` | Clear the scrollback (also `Ctrl+L`) |
+| `/model` | Show current model — bare command also lists every Copilot model so you can click one to switch |
+| `/model <id>` | Switch model directly, e.g. `/model claude-haiku-4.5` |
+| `/login` | Trigger the GitHub Copilot device-flow sign-in |
+
+Models the picker exposes today (subject to your Copilot subscription):
+
+- Claude family: `claude-sonnet-4.6`, `claude-sonnet-4.5`, `claude-haiku-4.5`,
+  `claude-opus-4.7`, `claude-opus-4.6`, `claude-opus-4.5`
+- GPT family: `gpt-5.5`, `gpt-5.4`, `gpt-5.3-codex`, `gpt-5.2-codex`,
+  `gpt-5.4-mini`, `gpt-5-mini`, `gpt-4.1`
+- And the `auto` selector that lets Copilot pick
+
+The model badge in the toolbar always shows the active choice.
+
+## Keyboard
+
+| Key | Action |
+|---|---|
+| `Enter` | Send |
+| `Shift+Enter` | Newline in the prompt |
+| `Esc` | Cancel an in-flight request |
+| `Ctrl+L` | Clear the log |
+| `↑` / `↓` | Browse prompt history (when the input is empty) |
+| `/` then `Tab` | Autocomplete a slash command |
+
+## When to use it vs. the side panel
+
+| If you want… | Use… |
+|---|---|
+| A persistent chat next to the page, with screenshots inline | **Side panel** |
+| To stay focused inside DevTools, run quick agent prompts against the inspected target | **DevTools CLI** |
+| Multiple parallel agent sessions, one per inspected tab | **DevTools CLI** (open DevTools on each tab) |
+| To pair-program with the agent on a feature | **DevTools CLI** + `bash` tool enabled in Settings |
+
+## Coming soon to the CLI
+
+We're growing the DevTools CLI into a more full-featured power-user
+surface. Tracked in the open on the
+[GitHub project board](https://github.com/orgs/BrowyHQ/projects).
+
+- **REPL co-coding**: agent and human alternate edits on the same file,
+  with explicit handoffs (`:edit`, `:continue`).
+- **`browy run`**: a standalone terminal binary that runs the agent
+  against the current shell, no browser required — a `gh copilot` /
+  `claude code` alternative powered by your existing Copilot subscription.
+- **Attach to running session**: open a debug view of an active Browy
+  side-panel session from the terminal.
+
+## See also
+
+<CardGrid>
+  <LinkCard title="Tools the agent has" href="/docs/tools/" description="Every tool the DevTools CLI agent can call." />
+  <LinkCard title="First chat" href="/docs/first-chat/" description="Things to try in either the side panel or the DevTools CLI." />
+  <LinkCard title="Install" href="/docs/install/" description="Get the extension + native host running in two minutes." />
+</CardGrid>

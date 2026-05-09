@@ -5,10 +5,10 @@ description: Every tool Browy exposes to the LLM — and the ones it deliberatel
 
 import { CardGrid, Card, LinkCard, Aside, Badge, Tabs, TabItem } from '@astrojs/starlight/components';
 
-Browy locks the GitHub Copilot SDK to a strict allowlist of
-**browser-only tools**. The SDK's built-in file-system and shell tools
-(`read_file`, `write_file`, `bash`) are blocked — see
-[Privacy & data](/docs/privacy/) for why.
+Browy ships with the **browser-driving tools enabled by default**.
+Power-user tools that touch your host (shell, filesystem, arbitrary
+HTTP) come from the GitHub Copilot SDK and are **off by default** —
+flip them on per-tool in **Settings → Tools** when you need them.
 
 <Aside type="note">
 The authoritative list lives in
@@ -62,8 +62,8 @@ search for `register({` to see every tool.
 
 | Tool | What it does |
 |---|---|
-| `network_log` | Recent network requests (URL, method, status, timing). Secrets [redacted](/docs/privacy/#secret-redaction). |
-| `console_log` | Recent console messages and exceptions. Secrets redacted. |
+| `network_log` | Recent network requests (URL, method, status, timing, headers). |
+| `console_log` | Recent console messages and exceptions. |
 
 </TabItem>
 <TabItem label="Disk + memory">
@@ -91,32 +91,33 @@ context.
 </TabItem>
 </Tabs>
 
-## What the agent *can't* do
+## Configurable safety defaults
 
-The Copilot SDK ships with built-in `read_file` / `write_file` / `bash`
-/ `grep` / `glob` / `web_fetch` tools that operate on your **host**
-filesystem and arbitrary URLs. Browy blocks all of these.
+The Copilot SDK ships with `read_file` / `write_file` / `bash` /
+`web_fetch` tools that operate on your **host** machine and arbitrary
+URLs. Browy keeps these **off by default** and exposes them as
+per-tool toggles in **Settings → Tools**.
 
 <CardGrid>
-  <Card title="No host file access" icon="error">
-    The `read_file` / `save_file` tools the agent has are sandboxed to
-    `~/.browy/data/`. The host file system is unreachable from the
-    agent.
+  <Card title="Host filesystem" icon="seti:folder">
+    `read_file` / `write_file` against your real filesystem. Off by
+    default; enable when you want the agent to edit files outside the
+    sandboxed `~/.browy/data/` scratch.
   </Card>
-  <Card title="No host shell" icon="error">
-    The SDK's `bash` tool is disabled. The `run_script` tool runs
-    Node.js code with explicit user confirmation.
+  <Card title="Host shell" icon="seti:shell">
+    `bash` runs commands on your machine. Off by default; enable when
+    you want a true coding agent / build / test loop.
   </Card>
-  <Card title="No arbitrary HTTP" icon="error">
-    The SDK's `web_fetch` is disabled. All network access goes through
-    pages you've navigated to.
+  <Card title="Arbitrary HTTP" icon="seti:json">
+    `web_fetch` calls any URL directly (not via a navigated page).
+    Off by default; enable for API calls, doc lookups, etc.
   </Card>
 </CardGrid>
 
-The lock-down lives in
+The toggle state lives in `chrome.storage.local` and is read by the
+native host on every connect. The relevant code is in
 [`src/agent/loop.ts`](https://github.com/BrowyHQ/browy/blob/main/src/agent/loop.ts) —
-search for `availableTools`. The strict allowlist is passed to both
-`createSession` and `resumeSession` so nothing slips through on a reload.
+search for `availableTools`.
 
 ## See also
 

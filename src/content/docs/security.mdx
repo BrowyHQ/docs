@@ -25,10 +25,7 @@ Anything that lets an attacker:
 
 - Read or exfiltrate data outside the agent's sandbox (`~/.browy/data/`)
 - Execute arbitrary code on the user's machine via prompt injection
-- Bypass the tool allowlist to call SDK builtins (`bash`, host
-  `read_file`, etc.)
-- Defeat the [secret-redaction filter](/docs/privacy/#secret-redaction)
-  for log files or chat history
+  past whatever tools the user has enabled in Settings
 - Persist state on the user's machine that survives uninstall
 - Connect to a host other than the locally-registered native messaging
   host
@@ -38,9 +35,10 @@ Anything that lets an attacker:
 <Aside type="note" title="Prompt injection on visited pages">
 Any prompt-injection attack on a visited page can affect the agent's
 behavior — that's an inherent property of all page-driving agents, and
-the threat model assumes it. The mitigation is the **strict tool
-allowlist** ([no host shell, no host file system, no arbitrary network
-egress](/docs/tools/#what-the-agent-cant-do)).
+the threat model assumes it. The mitigation is **defaults that suit the
+task**: powerful tools like host shell and arbitrary HTTP are
+[off by default and toggled per-user in Settings](/docs/tools/), so the
+blast radius of a hostile page is bounded by what *you* enabled.
 </Aside>
 
 Issues in third-party software Browy depends on (Playwright, Chrome,
@@ -69,13 +67,14 @@ the GitHub Copilot CLI) — please report those upstream.
 For users:
 
 <CardGrid>
-  <Card title="Don't paste secrets into chat" icon="warning">
-    Page content the agent sees is filtered, but text *you* type into
-    the chat goes through verbatim.
+  <Card title="Review what's enabled" icon="setting">
+    **Settings → Tools** is the source of truth for what the agent can
+    do on your machine. Turn host shell / filesystem off if you don't
+    need them today.
   </Card>
   <Card title="Don't run untrusted scripts" icon="warning">
-    Don't ask the agent to `run_script` with code from a source you
-    don't trust.
+    Don't ask the agent to `run_script` or run `bash` with code from a
+    source you don't trust.
   </Card>
   <Card title="Trust the yellow banner" icon="warning">
     Chrome's *"Browy started debugging…"* banner is your reminder that

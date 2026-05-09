@@ -62,13 +62,6 @@ fill in:
 Browy clicks fields by their **accessibility index**, types the values,
 and stops before submit so you can review.
 
-<Aside type="caution" title="Don't paste secrets into the chat">
-Page content the agent sees is filtered for common secret shapes
-([see the redaction list](/docs/privacy/#secret-redaction)), but text
-*you* type into the chat goes through verbatim. Don't paste passwords,
-API keys, or one-time codes.
-</Aside>
-
 </div>
 </div>
 
@@ -88,7 +81,7 @@ and report back. Multi-step automation in plain English.
 
 <figure class="browy-frame">
   <Image src={panelNetwork} alt="Browy reporting the slowest API call on a dashboard page" />
-  <figcaption>Network log via Chrome DevTools Protocol. Headers redacted at capture time.</figcaption>
+  <figcaption>Network log via Chrome DevTools Protocol — full URLs, headers, timings.</figcaption>
 </figure>
 
 <div>
@@ -98,10 +91,8 @@ Open any web app:
 > What's the slowest API call on this page when I refresh? Show me the
 > URL, status code, and time.
 
-Browy reads the network log via the **Chrome DevTools Protocol** and answers
-from data you don't have to open DevTools to see. Secrets in URLs and
-headers are redacted at capture time — see
-[Privacy → Secret redaction](/docs/privacy/#secret-redaction).
+Browy reads the network log via the **Chrome DevTools Protocol** and
+answers from data you don't have to open DevTools to see.
 
 </div>
 </div>
@@ -143,8 +134,9 @@ Type `/` in the chat to see them all.
 ## What's next?
 
 <CardGrid>
+  <LinkCard title="DevTools CLI" href="/docs/devtools-cli/" description="The Browy agent inside Chrome DevTools — slash commands, live model picker, terminal feel." />
   <LinkCard title="Tools the agent has" href="/docs/tools/" description="Full reference of every tool Browy exposes to the LLM — vision, click/type, network, persistent disk, more." />
   <LinkCard title="Permissions" href="/docs/permissions/" description="What the extension can and cannot access in your browser." />
   <LinkCard title="Privacy & data" href="/docs/privacy/" description="What leaves your machine, and what doesn't." />
-  <LinkCard title="Roadmap" href="/docs/roadmap/" description="What's planned next: macOS/Linux, DevTools panel REPL, vision verify, more." />
+  <LinkCard title="Roadmap & contributing" href="/docs/roadmap/" description="The live project board, open issues, and how to contribute." />
 </CardGrid>

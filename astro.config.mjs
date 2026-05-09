@@ -27,6 +27,7 @@ export default defineConfig({
             { label: 'What is Browy?', slug: 'index' },
             { label: 'Install', slug: 'install' },
             { label: 'First chat', slug: 'first-chat' },
+            { label: 'DevTools CLI', slug: 'devtools-cli' },
           ],
         },
         {
@@ -42,7 +43,7 @@ export default defineConfig({
           label: 'Project',
           items: [
             { label: 'Changelog', slug: 'changelog' },
-            { label: 'Roadmap', slug: 'roadmap' },
+            { label: 'Roadmap & contributing', slug: 'roadmap' },
           ],
         },
       ],

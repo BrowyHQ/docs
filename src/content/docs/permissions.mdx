@@ -17,8 +17,9 @@ permission justification.
 <Aside type="tip" title="TL;DR">
 Browy needs broad permissions because it's a *general-purpose* browser
 agent — you might point it at any site you can visit. **It only acts on
-tabs you explicitly target via the side panel**, and it ships with the
-SDK's host file-system / shell tools **disabled**.
+tabs you explicitly target via the side panel**, and the more dangerous
+host tools (shell, filesystem, web_fetch) are **off by default** and
+toggled per-tool in Settings.
 </Aside>
 
 ## Permissions
@@ -107,23 +108,24 @@ the agent only acts on tabs you explicitly target via the side panel.
 There is no background crawler, no prefetch, no scraping.
 </Aside>
 
-## What Browy does *not* do
+## How Browy is architected
 
 <CardGrid>
-  <Card title="No Browy server" icon="error">
+  <Card title="No Browy server" icon="rocket">
     There is no Browy backend. Page content goes to **GitHub Copilot**
     via the local CLI — exactly as if you ran `gh copilot` from a
     terminal.
   </Card>
-  <Card title="No background activity" icon="error">
-    The agent only acts when you send a message in the side panel.
+  <Card title="No background activity" icon="moon">
+    The agent acts only when you send a message in the side panel.
   </Card>
-  <Card title="No host file system / shell" icon="error">
-    The Copilot SDK's built-in `read_file` / `write_file` / `bash` tools
-    are **disabled**. Browy locks the SDK to a strict allowlist of
-    browser-only tools.
+  <Card title="Power tools opt-in" icon="setting">
+    Host shell, host filesystem, and arbitrary HTTP come from the
+    Copilot SDK and are **off by default**. Enable them per-tool in
+    [Settings → Tools](/docs/tools/#configurable-safety-defaults) when
+    you need them.
   </Card>
-  <Card title="No telemetry" icon="error">
+  <Card title="No telemetry" icon="seti:lock">
     There is no analytics SDK in the extension or the native host.
   </Card>
 </CardGrid>
@@ -131,7 +133,7 @@ There is no background crawler, no prefetch, no scraping.
 ## See also
 
 <CardGrid>
-  <LinkCard title="Privacy & data" href="/docs/privacy/" description="The full data-handling summary, including the secret-redaction list." />
-  <LinkCard title="Tools the agent has" href="/docs/tools/" description="Every tool the agent can call, what it does, and what it can't reach." />
+  <LinkCard title="Privacy & data" href="/docs/privacy/" description="The full data-handling summary." />
+  <LinkCard title="Tools the agent has" href="/docs/tools/" description="Every tool the agent can call, and the per-tool Settings toggles." />
   <LinkCard title="Security" href="/docs/security/" description="How to report a vulnerability." />
 </CardGrid>
