@@ -100,10 +100,9 @@ crawl in the background.
 ## How Browy is architected
 
 <CardGrid>
-  <Card title="No Browy server" icon="rocket">
-    There is no Browy backend. Page content goes to **GitHub Copilot**
-    via the local CLI — exactly as if you ran `gh copilot` from a
-    terminal.
+  <Card title="Local native host" icon="rocket">
+    Page content goes to **GitHub Copilot** via the local Copilot CLI —
+    exactly as if you ran `gh copilot` from a terminal.
   </Card>
   <Card title="No background activity" icon="moon">
     The agent acts only when you send a message in the side panel.
@@ -114,9 +113,6 @@ crawl in the background.
     in [Settings → Tools](/docs/tools/#configurable-per-tool-toggles);
     host-touching tools (shell, filesystem, `web_fetch`) are off by
     default and only enabled if you opt in per-tool.
-  </Card>
-  <Card title="No telemetry" icon="seti:lock">
-    There is no analytics SDK in the extension or the native host.
   </Card>
 </CardGrid>
 

@@ -1,24 +1,16 @@
 ---
 title: Privacy & data
-description: What Browy collects, where it goes, and what we never see.
+description: What data Browy handles, where it goes, and how it's stored.
 ---
 
 import { Aside, CardGrid, Card, LinkCard, Badge, Tabs, TabItem } from '@astrojs/starlight/components';
 
-<Badge text="Last updated 2026-05-09" variant="note" />
+<Badge text="Last updated 2026-05-10" variant="note" />
 
 Browy is a desktop application: a Chromium browser extension plus a
-small native messaging host that runs on your machine.
-
-<Aside type="tip" title="Summary">
-**BrowyHQ runs no servers.** The Browy organization does not receive,
-store, log, or analyze any data about your usage. LLM traffic flows
-between your machine and **GitHub Copilot** through the locally-installed
-[GitHub Copilot CLI](https://docs.github.com/copilot/concepts/agents/about-copilot-cli).
-</Aside>
-
-This page is the privacy policy referenced in the Browy Chrome Web Store
-and Microsoft Edge Add-ons listings.
+small native messaging host that runs on your machine. This page
+documents the data Browy handles and is the privacy policy referenced
+in the Chrome Web Store and Microsoft Edge Add-ons listings.
 
 ## What Browy sends, and to whom
 
@@ -39,21 +31,15 @@ or proxy these requests.
 </TabItem>
 <TabItem label="To BrowyHQ">
 
-| Data | What we receive |
-|---|---|
-| Telemetry | Nothing. |
-| Analytics | Nothing. |
-| Error reports | Nothing. |
-| Usage stats | Nothing. |
-
-There is no analytics SDK in the extension or the host, and no Browy
-backend to receive any of it.
+BrowyHQ does not operate any backend service. The extension and native
+host do not send analytics, telemetry, error reports, or usage data to
+BrowyHQ.
 
 </TabItem>
 <TabItem label="To anyone else">
 
-Nothing. Browy does not call any third-party service except the local
-Copilot CLI. The extension does not load any third-party scripts.
+The extension does not load third-party scripts and does not call any
+third-party service except the local Copilot CLI.
 
 </TabItem>
 </Tabs>
@@ -68,16 +54,10 @@ Copilot CLI. The extension does not load any third-party scripts.
 | Agent scratch disk + key-value memory | `~/.browy/data/files/` and `~/.browy/data/notes.json` | Until you delete them; survives across chats |
 | GitHub Copilot session state | `~/.copilot/` (managed by the Copilot CLI, not Browy) | Per Copilot CLI's behavior |
 
-<Aside type="note">
-Nothing in this list leaves your machine unless you initiate it. Asking
-the agent to "open this in a new tab" causes a navigation; asking it to
-"save this to my Downloads" calls `chrome.downloads`.
-</Aside>
-
 ## You decide what to share
 
 Page content the agent reads — DOM snapshots, console output, network
-logs, screenshots — all comes from the active tab and is sent to the
+logs, screenshots — comes from the active tab and is sent to the
 model unmodified. You pick the tab the agent runs against, what you type
 into chat, and which tools are enabled in Settings.
 
@@ -92,29 +72,9 @@ under **Settings → Tools**. Both can be flipped per-tool in the same
 place.
 </Aside>
 
-## How Browy is built
-
-<CardGrid>
-  <Card title="No Browy backend" icon="rocket">
-    BrowyHQ runs no servers. Page content goes to GitHub Copilot through
-    the local CLI, the same way `gh copilot` works in a terminal.
-  </Card>
-  <Card title="The agent only acts when you ask" icon="moon">
-    There's no background crawler, no prefetch, no scraper. Tools fire
-    when you send a message, and nothing in between.
-  </Card>
-  <Card title="No telemetry" icon="seti:lock">
-    The extension and host include no analytics SDKs. Updates ship
-    through the Web Stores (extension) and GitHub Releases (host).
-  </Card>
-  <Card title="No third-party scripts" icon="seti:javascript">
-    The side panel is fully bundled. Nothing loads from a CDN.
-  </Card>
-</CardGrid>
-
 ## Children
 
-Browy is not directed to children under 13, and we do not knowingly
+Browy is not directed to children under 13, and does not knowingly
 collect any data from anyone, including children.
 
 ## Changes to this policy

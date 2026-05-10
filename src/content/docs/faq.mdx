@@ -29,9 +29,7 @@ Browy's main draw is **session reuse**: your cookies, your logins, your password
 
 ## How does Browy compare to Skyvern?
 
-[Skyvern](https://github.com/Skyvern-AI/skyvern) is an open-source browser-automation tool with a hosted SaaS option. Browy is fully local: there is no Browy server, ever. Page content goes from your machine to GitHub Copilot through the locally-installed Copilot CLI, the same way `gh copilot` works in a terminal.
-
-If you want a turnkey hosted product, pick Skyvern. If you want zero-trust local-only operation against your real browser profile, pick Browy.
+[Skyvern](https://github.com/Skyvern-AI/skyvern) is an open-source browser-automation tool with a hosted SaaS option. Browy runs locally as a Chrome extension plus a native messaging host. If you want a turnkey hosted product, pick Skyvern. If you want an extension that drives your real browser profile from chat, pick Browy.
 
 ## Is Browy an alternative to Aider / Cline / Cursor?
 
@@ -57,7 +55,7 @@ Any model your Copilot subscription exposes — currently Claude Opus 4.7, Sonne
 - Tool calls (clicks, typed text, evaluated JS) → executed locally in your browser via `chrome.debugger`
 - Session history → stored locally in `chrome.storage.local` (extension) and `~/.browy/host/` (native host logs)
 
-Browy itself runs no server and collects no analytics. Full detail at [Privacy & Data](/docs/privacy/).
+Full detail at [Privacy & Data](/docs/privacy/).
 
 ## Can I disable specific tools?
 
