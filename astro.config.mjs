@@ -11,7 +11,7 @@ export default defineConfig({
   integrations: [
     starlight({
       title: 'Browy',
-      description: 'AI agent in your browser. Drives tabs, reads pages, writes code.',
+      description: 'The AI agent that lives in your browser. Drives real tabs through chat, powered by your GitHub Copilot subscription.',
       logo: { src: './src/assets/logo.png', replacesTitle: false },
       customCss: ['./src/styles/custom.css'],
       components: {
