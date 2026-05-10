@@ -42,17 +42,17 @@ safety timeout) before enabling their inputs.
 <CardGrid>
   <Card title="Side panel — `sidepanel.html`" icon="seti:html">
     The default chat UI. Persistent chat history, model badge, model
-    picker, slash commands, the past-chats drawer, the retro mascot.
-    Most users live here.
+    picker, slash commands, past-chats drawer, mascot. Most users live
+    here.
   </Card>
   <Card title="DevTools panel — `panel.html`" icon="seti:plan">
     The terminal-style REPL. Registered by `devtools.js` via
     `chrome.devtools.panels.create('Browy', …)`. Shares the agent
-    backend with the side panel; bound to the inspected target.
+    backend with the side panel and is bound to the inspected target.
     See the [DevTools CLI page](/docs/devtools-cli/).
   </Card>
   <Card title="Options — `options.html`" icon="setting">
-    Model picker, tool toggles, sign-in status, install help when
+    Model picker, tool toggles, sign-in status, and install help when
     the host isn't reachable. Opens via Chrome's standard extension
     options entry or Browy's toolbar menu.
   </Card>
@@ -72,8 +72,8 @@ When the host says *"call `snapshot` with these args"*, the SW:
 4. Posts the result back over the port.
 
 The Yellow Banner of Doom (Chrome's *"Browy started debugging…"*
-notice) is Chrome's mandatory disclosure for any extension using
-the DevTools Protocol. We can't and don't try to suppress it — see
+notice) is Chrome's mandatory disclosure for any extension using the
+DevTools Protocol. We don't try to suppress it. See
 [Permissions → debugger](/docs/permissions/#debugger-).
 
 ## Storage
@@ -99,11 +99,11 @@ cross-origin friction.
 
 ## Build
 
-The extension ships **as-is** — no bundler step. `extension/` is a
+The extension ships as-is, with no bundler step. `extension/` is a
 plain Chromium extension folder. The installer copies it to your
 Downloads directory; you load it with `chrome://extensions` →
-*Load unpacked*. When the Chrome Web Store listing goes live, the
-same files are packaged into the CRX you download from the store.
+*Load unpacked*. When the Chrome Web Store listing goes live, the same
+files will be packaged into the CRX you download from the store.
 
 ## See also
 

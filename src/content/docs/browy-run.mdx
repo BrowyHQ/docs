@@ -11,12 +11,12 @@ toolset (`read_file`, `write_file`, `bash`, `grep`, `glob`,
 `web_fetch`). No browser required.
 
 Think of it as a `gh copilot`-style CLI scoped to your current
-directory — useful for quick refactors, summarising a diff, sweeping
+directory. Useful for quick refactors, summarising a diff, sweeping
 TODOs, or driving a build/test loop.
 
 <Aside type="note">
 `browy run` and Browy's browser surfaces (side panel, DevTools panel)
-are **independent**. The browser surfaces speak browser tools only;
+are independent. The browser surfaces speak browser tools only;
 `browy run` speaks host tools only. They never mix toolsets, so a
 prompt-injected page can't reach your filesystem.
 </Aside>
@@ -51,9 +51,8 @@ browy run --resume sess-abc123         # pick up where you left off
 ```
 
 Sessions live under `~/.browy/cli-sessions/`. They're isolated from
-both Browy's browser sessions (`~/.browseragent/sessions/`) and your
-own `copilot` CLI sessions, so you never see them in
-`copilot --list` and vice versa.
+both Browy's browser sessions and your own `copilot` CLI sessions, so
+you never see them in `copilot --list` and vice versa.
 
 ## Flags
 
@@ -81,29 +80,29 @@ These are the GitHub Copilot SDK's defaults — the same set the
 because the use case _is_ "I want a terminal coding agent".
 
 <Aside type="caution">
-`bash` is real shell access. Treat `browy run` like you'd treat any
-other coding-agent CLI — point it at code you trust, and review
-proposed file edits and shell commands before letting them run.
+`bash` is real shell access. Treat `browy run` like any other
+coding-agent CLI: point it at code you trust, and review file edits
+and shell commands before letting them run.
 </Aside>
 
 ## When to use it
 
 <CardGrid>
   <Card title="Quick repo work" icon="seti:git">
-    "What changed in the last 5 commits?", "rename `frob` → `bar`
+    "What changed in the last 5 commits?", "rename `frob` to `bar`
     everywhere", "add a test for `parseUrl`."
   </Card>
   <Card title="Drive a build/test loop" icon="rocket">
-    Iterate on a failing test, let the agent edit, run `npm test`,
-    read the output, edit again — all in one session.
+    Iterate on a failing test. The agent edits, runs `npm test`, reads
+    the output, and edits again, all in one session.
   </Card>
   <Card title="No browser handy" icon="laptop">
-    On a server, in a remote shell, or while the browser is closed —
-    `browy run` works the same.
+    Works the same on a server, in a remote shell, or while the
+    browser is closed.
   </Card>
   <Card title="Browser-coupled tasks" icon="seti:html">
     Use the [side panel](/docs/first-chat/) or
-    [DevTools CLI](/docs/devtools-cli/) instead — those have the
+    [DevTools CLI](/docs/devtools-cli/) for those — they have the
     browser tools.
   </Card>
 </CardGrid>
@@ -111,7 +110,7 @@ proposed file edits and shell commands before letting them run.
 ## See also
 
 <CardGrid>
-  <LinkCard title="DevTools CLI" href="/docs/devtools-cli/" description="The slash-command CLI inside Chrome DevTools — browser-coupled cousin of `browy run`." />
+  <LinkCard title="DevTools CLI" href="/docs/devtools-cli/" description="The slash-command CLI inside Chrome DevTools — the browser-coupled cousin of `browy run`." />
   <LinkCard title="Tools" href="/docs/tools/" description="Full tool reference (browser side)." />
   <LinkCard title="Architecture: CLI" href="/docs/arch-cli/" description="How `browy run` and the DevTools CLI fit together." />
 </CardGrid>

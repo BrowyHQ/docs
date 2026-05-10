@@ -1,21 +1,21 @@
 ---
 title: Tools the agent has
-description: Every tool Browy exposes to the LLM — and the ones it deliberately doesn't.
+description: Every tool Browy exposes to the LLM, and the ones it deliberately doesn't.
 ---
 
 import { CardGrid, Card, LinkCard, Aside, Badge, Tabs, TabItem } from '@astrojs/starlight/components';
 
-Browy ships with the **browser-driving tools enabled by default**.
-You can turn off any individual tool in **Settings → Tools** — handy
-for running in stricter modes (read-only, no JS-eval, etc.).
-Host-touching tools (`read_file`, `bash`, `web_fetch`) are **only
-available** through the headless terminal CLI ([`browy run`](#host-tools-terminal-cli)),
-never inside the browser surfaces.
+Browy ships with the browser-driving tools enabled by default. Any
+individual tool can be turned off in **Settings → Tools** for stricter
+modes (read-only, no JS evaluation, and so on). Host-touching tools
+(`read_file`, `bash`, `web_fetch`) live exclusively in the headless
+[`browy run`](#host-tools-terminal-cli) terminal CLI; they are never
+exposed to the side panel or DevTools panel.
 
 <Aside type="note">
 The authoritative list lives in
-[`src/agent/tools/browser.ts`](https://github.com/BrowyHQ/browy/blob/main/src/agent/tools/browser.ts) —
-search for `register({` to see every tool.
+[`src/agent/tools/browser.ts`](https://github.com/BrowyHQ/browy/blob/main/src/agent/tools/browser.ts).
+Search for `register({` to see every tool.
 </Aside>
 
 ## Categories
@@ -25,9 +25,9 @@ search for `register({` to see every tool.
 
 | Tool | What it does |
 |---|---|
-| `snapshot` | Take an indexed accessibility-tree snapshot of the active tab. The agent uses these `[N]` indexes to click and type without brittle CSS. |
-| `screenshot` | Capture a PNG of the visible viewport (or full page). |
-| `read_visible` | Return the visible text of the page. |
+| `snapshot` | Indexed accessibility-tree snapshot of the active tab. The agent uses the `[N]` indexes to click and type without CSS selectors. |
+| `screenshot` | PNG of the visible viewport (or full page). |
+| `read_visible` | Visible text of the page. |
 
 </TabItem>
 <TabItem label="Click / type / nav">
@@ -45,19 +45,18 @@ search for `register({` to see every tool.
 
 | Tool | What it does |
 |---|---|
-| `list_tabs` | List all open tabs (title, URL, id). |
+| `list_tabs` | List open tabs (title, URL, id). |
 | `switch_tab(id)` | Bring a tab to the foreground. |
 | `new_tab(url?)` | Open a new tab. |
 | `close_tab(id)` | Close a tab. |
 
 </TabItem>
-<TabItem label="Power tools">
+<TabItem label="Page scripting">
 
 | Tool | What it does |
 |---|---|
-| `evaluate_js(code)` | Run arbitrary JavaScript in the page (top-level `await` OK). For shadow-DOM walks, custom waits, structured extraction, framework-specific APIs. |
-| `run_script(code)` | Run a Node.js script on **your** machine for file I/O / shell. Sandboxed and asks before running. |
-| `query_dom(selector)` | CSS selector fallback when the indexed tools can't express what you need. |
+| `evaluate_js(code)` | Run JavaScript in the page (top-level `await` works). For shadow-DOM walks, custom waits, structured extraction. |
+| `query_dom(selector)` | CSS selector fallback when the indexed tools can't reach what you need. |
 
 </TabItem>
 <TabItem label="Network & console">
@@ -74,12 +73,12 @@ Sandboxed at `~/.browy/data/`:
 
 | Tool | What it does |
 |---|---|
-| `save_file(filename, content)`, `read_file`, `list_files`, `delete_file` | Scratch disk for cached scrapes, intermediate work. Paths are relative to the data root; you can't escape it. |
-| `note_set(key, value, category?)`, `note_get`, `note_list`, `note_delete` | Persistent key-value memory that survives across **different chats** (user preferences, long-lived facts). |
+| `save_file(filename, content)`, `read_file`, `list_files`, `delete_file` | Scratch disk for cached scrapes and intermediate work. Paths are relative to the data root and can't escape it. |
+| `note_set(key, value, category?)`, `note_get`, `note_list`, `note_delete` | Persistent key-value memory that survives across different chats (user preferences, long-lived facts). |
 
 <Aside type="caution" title="Notes vs conversation history">
-`note_*` is **not** the agent's conversation history — that's automatic
-and the agent always has it. Empty `note_list` does not mean empty
+`note_*` is not the agent's conversation history. The agent always has
+its own conversation history; an empty `note_list` does not mean empty
 context.
 </Aside>
 
@@ -95,28 +94,29 @@ context.
 
 ## Configurable per-tool toggles
 
-Every built-in browser tool can be turned off individually in
-**Settings → Tools** (right-click the Browy toolbar icon → Options).
-Toggles are grouped by category — _inspect_, _navigate_, _interact_,
-_devtools_ — and persist in `chrome.storage.local`. Disabled tools are
-stripped from the SDK's allowlist **and** from the function-definition
-list sent to the model, so the agent never sees they exist.
+Every browser tool can be turned off individually in **Settings →
+Tools** (right-click the Browy toolbar icon → Options). Toggles are
+grouped by category — _inspect_, _navigate_, _interact_, _devtools_ —
+and persist in `chrome.storage.local`. Disabled tools are stripped from
+the SDK's allowlist and from the function-definition list sent to the
+model, so the agent doesn't see they exist.
 
 Common reasons to disable a tool:
 
 <CardGrid>
   <Card title="Stricter sandbox" icon="seti:lock">
-    Turn off `evaluate_js` and `run_script` if you don't want the agent
-    running arbitrary JavaScript inside the inspected page (it'll still
-    use the structured tools — `click_index`, `fill_form`, etc.).
+    Turn off `evaluate_js` if you don't want the agent running
+    JavaScript in the inspected page. The structured tools (`click`,
+    `type`, `navigate`, etc.) keep working.
   </Card>
   <Card title="Read-only mode" icon="seti:eye">
-    Disable everything in _interact_ and _navigate_; keep _inspect_ on.
-    The agent can answer questions about pages but can't change them.
+    Disable everything in _interact_ and _navigate_ and keep _inspect_
+    on. The agent can answer questions about pages but can't change
+    them.
   </Card>
-  <Card title="No file I/O" icon="seti:folder">
-    Disable `download_file` / `upload_file` if you never want the agent
-    triggering picker dialogs.
+  <Card title="No JS evaluation" icon="seti:javascript">
+    Some teams disable `evaluate_js` and `query_dom` to limit the agent
+    to the structured accessibility-tree tools only.
   </Card>
 </CardGrid>
 
@@ -126,12 +126,11 @@ Changes apply on the next chat (or after `/clear`).
 ## Host tools (terminal CLI)
 
 The Copilot SDK ships `read_file` / `write_file` / `bash` / `grep` /
-`glob` / `web_fetch` for true coding-agent workflows. These touch your
-**host machine**, so Browy's browser surfaces (side panel, DevTools
-panel) **never** expose them — only the browser tools above are
-available there.
+`glob` / `web_fetch` for true coding-agent workflows. These touch the
+host machine, so Browy's browser surfaces (side panel, DevTools panel)
+do not expose them. Only the browser tools above are available there.
 
-To use the host toolset, run the headless terminal CLI:
+To use the host toolset, run the terminal CLI:
 
 ```bash
 browy run "summarize the diff staged in this repo"
@@ -140,16 +139,16 @@ browy run                                  # interactive REPL
 browy run --resume <session-id>            # pick up where you left off
 ```
 
-`browy run` is scoped to your current directory by default
+`browy run` is scoped to the current directory by default
 (`--cwd <path>` to override). Sessions are stored under
 `~/.browy/cli-sessions/`, isolated from both Browy's browser sessions
 and your own `copilot` CLI sessions. See
-[**DevTools CLI →**](/docs/devtools-cli/) for the full surface.
+[`browy run`](/docs/browy-run/) for the full surface.
 
 ## See also
 
 <CardGrid>
   <LinkCard title="Permissions" href="/docs/permissions/" description="Why the extension asks for the Chrome permissions it does." />
-  <LinkCard title="Privacy & data" href="/docs/privacy/" description="What leaves your machine, and what doesn't." />
+  <LinkCard title="Privacy & data" href="/docs/privacy/" description="What stays on your machine and what goes to GitHub Copilot." />
   <LinkCard title="Security" href="/docs/security/" description="How to report a vulnerability." />
 </CardGrid>

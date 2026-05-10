@@ -34,14 +34,14 @@ Anything that lets an attacker:
 
 <Aside type="note" title="Prompt injection on visited pages">
 Any prompt-injection attack on a visited page can affect the agent's
-behavior — that's an inherent property of all page-driving agents, and
-the threat model assumes it. The mitigation is **defaults that suit the
-task**: powerful tools like host shell and arbitrary HTTP are
+behavior. That's an inherent property of all page-driving agents, and
+the threat model assumes it. The mitigation is sensible defaults:
+powerful tools like host shell and arbitrary HTTP are
 [off by default and toggled per-user in Settings](/docs/tools/), so the
 blast radius of a hostile page is bounded by what *you* enabled.
 </Aside>
 
-Issues in third-party software Browy depends on (Playwright, Chrome,
+Issues in third-party software Browy depends on (Chrome, Node.js,
 the GitHub Copilot CLI) — please report those upstream.
 
 ## What we do
@@ -69,15 +69,15 @@ For users:
 <CardGrid>
   <Card title="Review what's enabled" icon="setting">
     **Settings → Tools** is the source of truth for what the agent can
-    do on your machine. Turn host shell / filesystem off if you don't
+    do on your machine. Turn host shell or filesystem off if you don't
     need them today.
   </Card>
   <Card title="Don't run untrusted scripts" icon="warning">
-    Don't ask the agent to `run_script` or run `bash` with code from a
-    source you don't trust.
+    Don't ask the agent to `bash` or run code from a source you don't
+    trust.
   </Card>
   <Card title="Trust the yellow banner" icon="warning">
-    Chrome's *"Browy started debugging…"* banner is your reminder that
+    Chrome's *"Browy started debugging…"* banner is the reminder that
     a session is live. If you see it when you don't expect to,
     disconnect.
   </Card>

@@ -91,9 +91,9 @@ the user's perspective it streams in real time.
 
 Browy delegates session storage to the GitHub Copilot CLI's session
 machinery (in `~/.copilot/`). The host keeps a small mapping of
-`extensionChatId → copilotSessionId` in `chrome.storage.local`
-(stored on the extension side, not the host) so that resuming a chat
-hits the right Copilot session.
+`extensionChatId → copilotSessionId` in `chrome.storage.local` (on the
+extension side, not the host), so resuming a chat hits the right
+Copilot session.
 
 The agent also has its own scratch surfaces:
 
@@ -117,9 +117,9 @@ extension (where the page lives), not in the host. The host is the
 orchestrator and the bridge to the LLM.
 
 `src/agent/loop.ts` builds the tool inventory passed to the SDK on
-every connect. Today it's the full browser-tool list; in v0.1.2 it
-will be filtered against the user's
-[Settings → Tools](/docs/tools/#configurable-safety-defaults) toggles.
+each connect. Today it's the full browser-tool list; in v0.1.2 it will
+be filtered against the user's
+[Settings → Tools](/docs/tools/#configurable-per-tool-toggles) toggles.
 
 ## Logging & rotation
 
@@ -128,8 +128,8 @@ will be filtered against the user's
 ~5 MB (rename to `host.log.1`, start fresh). One rotation at a time;
 old rotations get overwritten on the next round.
 
-This file is the single best place to look when a session misbehaves.
-It contains the host's own diagnostic output — not transcripts.
+This is the first place to look when a session misbehaves. It contains
+the host's diagnostic output, not transcripts.
 
 ## See also
 

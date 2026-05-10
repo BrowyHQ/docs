@@ -10,8 +10,8 @@ import { Image } from 'astro:assets';
 
 Browy is two pieces:
 
-1. **The native host** — a small Node.js helper that runs on your machine
-   and talks to GitHub Copilot.
+1. **The native host** — a small Node.js helper that runs on your
+   machine and talks to GitHub Copilot.
 2. **The browser extension** — a Chrome side panel that talks to the
    native host.
 
@@ -19,8 +19,8 @@ The installer below sets up both.
 
 <Aside type="caution" title="Early access">
 Today the only supported install channel is the GitHub release. The
-Chrome Web Store listing is in review — once approved, you'll be able
-to install with one click.
+Chrome Web Store listing is in review; one-click install will land
+once it's approved.
 </Aside>
 
 ## Requirements
@@ -147,23 +147,23 @@ A scripted uninstaller is on [the roadmap](/docs/roadmap/).
 ## Troubleshooting
 
 <Aside type="caution" title="“Host disconnected — reconnecting…”">
-The side panel can't reach the native host. The most common causes are:
-the native host failed to install (re-run the installer), Chrome was
-opened before the host was registered (restart Chrome), or your
-antivirus quarantined `node.exe` (allow `%LOCALAPPDATA%\Browy\` in your
-AV exclusions).
+The side panel can't reach the native host. Common causes: the native
+host failed to install (re-run the installer), Chrome was opened
+before the host was registered (restart Chrome), or your antivirus
+quarantined `node.exe` (allow `%LOCALAPPDATA%\Browy\` in your AV
+exclusions).
 </Aside>
 
 <Aside type="caution" title="“Host unreachable — reinstall →”">
-The reconnect attempts gave up. Click the **Reinstall host** link in
-the banner — it points at the same `install.ps1` you used the first
-time. Your chats and settings are preserved across reinstalls.
+The reconnect attempts gave up. Click **Reinstall host** in the
+banner; it points at the same `install.ps1` you used the first time.
+Your chats and settings are preserved across reinstalls.
 </Aside>
 
 <Aside type="caution" title="“Browy started debugging this browser”">
-This is Chrome's standard yellow banner — it's non-removable and shown
-whenever any extension uses `chrome.debugger`. It's how Browy
-sees and acts on the page; closing it disconnects the agent. See
+This is Chrome's standard yellow banner. It's non-removable and shown
+whenever any extension uses `chrome.debugger`. It's how Browy sees and
+acts on the page; closing it disconnects the agent. See
 [Permissions → debugger](/docs/permissions/) for why this is required.
 </Aside>
 

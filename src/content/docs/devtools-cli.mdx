@@ -15,29 +15,28 @@ click the **Browy** tab, and you have the same agent that runs in the
 side panel — only with a CLI surface that power users tend to prefer.
 
 <figure class="browy-frame">
-  <Image src={devtoolsPanel} alt="The Browy DevTools panel: a green-on-black REPL with /help, /model picker showing 19 models, and a status bar showing the active model and inspected page" />
-  <figcaption>The Browy DevTools CLI in action — <code>/model</code> shows 19 Copilot models, instant switch.</figcaption>
+  <Image src={devtoolsPanel} alt="The Browy DevTools panel: a green-on-black REPL with /help, /model picker, and a status bar showing the active model and inspected page" />
+  <figcaption>The DevTools CLI with <code>/model</code> open.</figcaption>
 </figure>
 
 ## Why a CLI in DevTools?
 
 <CardGrid>
-  <Card title="It's where you already are" icon="seti:html">
+  <Card title="Where you already are" icon="seti:html">
     Inspect the DOM, read the network panel, then ask the agent a
-    question — without leaving DevTools or context-switching to a
-    sidebar.
+    question without leaving DevTools.
   </Card>
   <Card title="Terminal feel" icon="seti:shell">
     Slash commands, history, autocomplete, `Ctrl+L` to clear, `Esc`
-    to cancel. If you live in `gh copilot` or `claude code`, this fits.
+    to cancel. Familiar if you use `gh copilot` or `claude code`.
   </Card>
-  <Card title="Per-page session" icon="approve-check">
-    The DevTools panel is bound to its inspected target — open one per
+  <Card title="Per-tab session" icon="approve-check">
+    Each DevTools panel is bound to its inspected target. Open one per
     tab, run an agent per app, no cross-talk.
   </Card>
-  <Card title="Same agent, same tools" icon="rocket">
-    It's the side-panel agent under a different UI. Snapshots, clicks,
-    network log, all of it.
+  <Card title="Same agent" icon="rocket">
+    The DevTools CLI uses the same backend, tools, and session store
+    as the side panel. Snapshots, clicks, network log, all of it.
   </Card>
 </CardGrid>
 
@@ -131,13 +130,13 @@ Tracked in the open on the
   side-panel session from the terminal.
 
 For a true terminal coding agent (no browser, full file/shell toolset),
-see [**`browy run`**](/docs/browy-run/) — already shipped.
+see [`browy run`](/docs/browy-run/).
 
 ## See also
 
 <CardGrid>
-  <LinkCard title="Terminal CLI (browy run)" href="/docs/browy-run/" description="Headless coding agent in your terminal — no browser needed." />
+  <LinkCard title="browy run" href="/docs/browy-run/" description="Headless coding agent in your terminal — no browser needed." />
   <LinkCard title="Tools the agent has" href="/docs/tools/" description="Every tool the DevTools CLI agent can call." />
-  <LinkCard title="First chat" href="/docs/first-chat/" description="Things to try in either the side panel or the DevTools CLI." />
-  <LinkCard title="Install" href="/docs/install/" description="Get the extension + native host running in two minutes." />
+  <LinkCard title="First chat" href="/docs/first-chat/" description="Things to try in the side panel or DevTools CLI." />
+  <LinkCard title="Install" href="/docs/install/" description="Get the extension and native host running." />
 </CardGrid>

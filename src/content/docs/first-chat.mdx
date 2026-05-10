@@ -127,9 +127,9 @@ The side panel's titlebar (top right) hosts four controls:
 | **Chats** | Open the past-chats overlay — searchable list of every prior session, with delete + click-to-resume. |
 | **Settings** | Opens the extension Options page (model picker, [tool toggles](/docs/tools/#configurable-per-tool-toggles), authentication, diagnostics). |
 
-The status bar underneath shows the active browser, tab title, and a
-**`N/M`** chip — connected vs. installed browsers. Click Settings to
-launch a browser that's installed but not yet connected.
+The status bar underneath shows the active browser, tab title, and an
+**`N/M`** chip showing connected vs. installed browsers. Click Settings
+to launch a browser that's installed but not yet connected.
 
 ## Input
 
@@ -146,13 +146,13 @@ tables).
 ## During a turn
 
 - **Streaming text** appears live as the model generates it.
-- **Tool calls** render as inline cards (`▸ click_index { index: 14 }`)
-  — click to expand and see arguments + result. Failed tool calls are
+- **Tool calls** render as inline cards (`▸ click { index: 14 }`).
+  Click to expand and see arguments and result. Failed tool calls are
   surfaced with their error.
 - **Reasoning** (when the model emits it) shows in a dim block above
   the answer.
-- **Auth errors** surface an inline "Sign in to GitHub Copilot" button —
-  no need to dig into Settings.
+- **Auth errors** surface an inline "Sign in to GitHub Copilot" button,
+  so you don't need to dig into Settings.
 
 If the native host disconnects, a banner at the top of the panel offers
 a one-click recheck (and tells you how to install the host if it's
@@ -168,8 +168,7 @@ preview, and timestamp. Open the **Chats** overlay to:
 - Delete (×) to remove a conversation from history
 - **+ new chat** to start a fresh one
 
-Chats are local to your browser profile — they never leave your
-machine.
+Chats are local to your browser profile and never leave your machine.
 
 ## What's next?
 
