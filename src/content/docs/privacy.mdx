@@ -10,15 +10,15 @@ import { Aside, CardGrid, Card, LinkCard, Badge, Tabs, TabItem } from '@astrojs/
 Browy is a desktop application: a Chromium browser extension plus a
 small native messaging host that runs on your machine.
 
-<Aside type="tip" title="The headline">
-**Browy operates no servers.** The Browy organization (BrowyHQ) does
-not receive, store, log, or analyze any data about your usage. All
-LLM traffic flows directly between your machine and **GitHub Copilot**,
-via the locally-installed [GitHub Copilot CLI](https://docs.github.com/copilot/concepts/agents/about-copilot-cli).
+<Aside type="tip" title="Summary">
+**BrowyHQ runs no servers.** The Browy organization does not receive,
+store, log, or analyze any data about your usage. LLM traffic flows
+between your machine and **GitHub Copilot** through the locally-installed
+[GitHub Copilot CLI](https://docs.github.com/copilot/concepts/agents/about-copilot-cli).
 </Aside>
 
-This page is the privacy policy referenced in the Browy Chrome Web
-Store and Microsoft Edge Add-ons listings.
+This page is the privacy policy referenced in the Browy Chrome Web Store
+and Microsoft Edge Add-ons listings.
 
 ## What Browy sends, and to whom
 
@@ -27,9 +27,9 @@ Store and Microsoft Edge Add-ons listings.
 
 | Data | Why |
 |---|---|
-| **Page content** the agent inspects (DOM snapshots, screenshots, console / network logs, JS evaluation results) | The LLM needs to see what's on screen to act. Same data path as if you ran `gh copilot` in a terminal. |
-| **Your chat messages** | This is the prompt to the model. |
-| **Tool-call results** (e.g. "navigated to X", "clicked element 7") | The model needs feedback to plan the next step. |
+| Page content the agent inspects (DOM snapshots, screenshots, console / network logs, JS evaluation results) | The model needs to see what's on screen to act. Same data path as `gh copilot` in a terminal. |
+| Your chat messages | They're the prompt to the model. |
+| Tool-call results (e.g. "navigated to X", "clicked element 7") | The model needs feedback to plan the next step. |
 
 GitHub's handling of Copilot data is governed by the
 [GitHub Copilot Privacy Statement](https://github.com/customer-terms/github-copilot-product-specific-terms)
@@ -41,13 +41,13 @@ or proxy these requests.
 
 | Data | What we receive |
 |---|---|
-| Telemetry | **Nothing.** |
-| Analytics | **Nothing.** |
-| Error reports | **Nothing.** |
-| Usage stats | **Nothing.** |
+| Telemetry | Nothing. |
+| Analytics | Nothing. |
+| Error reports | Nothing. |
+| Usage stats | Nothing. |
 
-Browy does not collect telemetry. There is no analytics SDK in the
-extension or the host. There is no Browy backend to receive any of this.
+There is no analytics SDK in the extension or the host, and no Browy
+backend to receive any of it.
 
 </TabItem>
 <TabItem label="To anyone else">
@@ -69,45 +69,44 @@ Copilot CLI. The extension does not load any third-party scripts.
 | GitHub Copilot session state | `~/.copilot/` (managed by the Copilot CLI, not Browy) | Per Copilot CLI's behavior |
 
 <Aside type="note">
-Nothing in this list leaves your machine unless you initiate it (e.g.
-asking the agent to "open this in a new tab" causes a navigation, or
-asking it to "save this to my Downloads" calls `chrome.downloads`).
+Nothing in this list leaves your machine unless you initiate it. Asking
+the agent to "open this in a new tab" causes a navigation; asking it to
+"save this to my Downloads" calls `chrome.downloads`.
 </Aside>
 
-## You're in control of what you share
+## You decide what to share
 
-Page content the agent sees comes from the active tab — DOM snapshots,
-console output, network logs, screenshots — and is sent to the LLM
-unmodified. **You decide** what tabs the agent runs against, what you
-type into chat, and what tools you enable in Settings.
+Page content the agent reads — DOM snapshots, console output, network
+logs, screenshots — all comes from the active tab and is sent to the
+model unmodified. You pick the tab the agent runs against, what you type
+into chat, and which tools are enabled in Settings.
 
 That includes things power users *want* to send: API keys for backend
 testing, OAuth redirect URLs, `Authorization` headers from a network
 trace. Browy doesn't second-guess you.
 
 <Aside type="tip" title="A few sensible defaults">
-Some of the GitHub Copilot SDK's most powerful built-in tools — host
-shell (`bash`), arbitrary HTTP (`web_fetch`), host filesystem
-(`read_file` / `write_file`) — are **off by default** and can be
-turned on per-tool in **Settings → Tools**. Default-on tools are the
-browser-driving ones in [Tools the agent has](/docs/tools/).
+The Copilot SDK's most powerful built-in tools — host shell (`bash`),
+arbitrary HTTP (`web_fetch`), host filesystem (`read_file` /
+`write_file`) — are off by default. Turn them on per-tool in
+**Settings → Tools**. Default-on tools are the browser-driving ones in
+[Tools the agent has](/docs/tools/).
 </Aside>
 
 ## How Browy is built
 
 <CardGrid>
   <Card title="No Browy backend" icon="rocket">
-    Browy operates no servers. Page content goes to **GitHub Copilot**
-    via the local CLI — same data path as `gh copilot` in a terminal.
+    BrowyHQ runs no servers. Page content goes to GitHub Copilot through
+    the local CLI, the same way `gh copilot` works in a terminal.
   </Card>
   <Card title="No background activity" icon="moon">
     The agent acts only when you send a message. There is no background
-    crawler, no prefetch, no scraper.
+    crawler, prefetch, or scraper.
   </Card>
   <Card title="No telemetry" icon="seti:lock">
-    No analytics SDK in the extension or the host. No phone-home.
-    Updates ship via the Web Stores (extension) or GitHub Releases
-    (CLI host).
+    No analytics SDK in the extension or the host. Updates ship through
+    the Web Stores (extension) and GitHub Releases (CLI host).
   </Card>
   <Card title="No third-party scripts" icon="seti:javascript">
     The extension loads zero external scripts. The side panel is fully
@@ -117,18 +116,18 @@ browser-driving ones in [Tools the agent has](/docs/tools/).
 
 ## Children
 
-Browy is not directed to children under 13 and we do not knowingly
+Browy is not directed to children under 13, and we do not knowingly
 collect any data from anyone, including children.
 
 ## Changes to this policy
 
 When this policy changes, the *Last updated* badge at the top of this
-page changes. Material changes are also called out in the
+page changes too. Material changes are also noted in the
 [changelog](/docs/changelog/).
 
 ## Contact
 
 <CardGrid>
-  <LinkCard title="Report a security issue" href="https://github.com/BrowyHQ/browy/security/advisories/new" description="Private GitHub Security Advisory — preferred for anything sensitive." />
+  <LinkCard title="Report a security issue" href="https://github.com/BrowyHQ/browy/security/advisories/new" description="Private GitHub Security Advisory. Preferred for anything sensitive." />
   <LinkCard title="Privacy questions or general issues" href="https://github.com/BrowyHQ/browy/issues" description="Open a public issue on the main repo." />
 </CardGrid>

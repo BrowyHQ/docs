@@ -98,10 +98,10 @@ notified.
 </Steps>
 
 <Aside type="tip" title="Why developer mode?">
-Until the Chrome Web Store listing is approved, the extension isn't
-signed by Google and has to be loaded as an "unpacked" extension. That
-flag is the only thing developer mode actually toggles for our use case.
-Once we ship to the Web Store, this step disappears.
+The Chrome Web Store listing is still in review, so the extension isn't
+signed by Google yet and has to load as unpacked. Developer mode is the
+toggle that allows that. Once Browy ships through the Web Store, this
+step goes away.
 </Aside>
 
 ## Step 3 — sign in to Copilot
@@ -111,7 +111,7 @@ Browy will prompt you to sign in.
 
 <figure class="browy-frame">
   <Image src={panelSignin} alt="The Browy side panel with the 'Sign in to GitHub Copilot' button visible" />
-  <figcaption>First-run state — click "Sign in to GitHub Copilot" and follow the device-flow link.</figcaption>
+  <figcaption>Click "Sign in to GitHub Copilot" and follow the device-flow link.</figcaption>
 </figure>
 
 A terminal window opens with the GitHub Copilot **device-flow link**.
@@ -170,7 +170,7 @@ sees and acts on the page; closing it disconnects the agent. See
 ## Next
 
 <CardGrid>
-  <LinkCard title="Your first chat" href="/docs/first-chat/" description="Five prompts that show what Browy can actually do." />
-  <LinkCard title="Permissions" href="/docs/permissions/" description="What each Chrome permission does." />
-  <LinkCard title="Privacy & data" href="/docs/privacy/" description="What leaves your machine, and what doesn't." />
+  <LinkCard title="Your first chat" href="/docs/first-chat/" description="Five example prompts to try in the side panel." />
+  <LinkCard title="Permissions" href="/docs/permissions/" description="What each Chrome permission is for." />
+  <LinkCard title="Privacy & data" href="/docs/privacy/" description="What stays on your machine and what goes to GitHub Copilot." />
 </CardGrid>

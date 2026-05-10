@@ -3,7 +3,7 @@ title: Browy
 description: AI agent in your browser. Drives tabs, reads pages, writes code.
 template: splash
 hero:
-  tagline: An AI agent that lives in your browser. Drives tabs, reads pages, writes code — using your own GitHub Copilot subscription.
+  tagline: A Chrome side-panel agent that uses your GitHub Copilot subscription to drive tabs, read pages, and run scripts.
   image:
     file: ../../assets/logo.png
     alt: Browy mascot
@@ -23,47 +23,47 @@ import { Image } from 'astro:assets';
 
 ## What Browy is
 
-Browy is a Chrome side-panel agent. You chat with it in plain English; it
-sees your active tab, clicks through pages, fills forms, runs JS, captures
-screenshots, and remembers things across sessions. It uses **your own GitHub
-Copilot subscription** as the LLM — there is no Browy server.
+Browy is a Chrome side-panel agent. You chat with it; it reads the active
+tab, clicks through pages, fills forms, runs JavaScript, captures
+screenshots, and remembers things across sessions. The model is **GitHub
+Copilot**, called through the local CLI. There is no Browy backend.
 
 <figure class="browy-frame">
   <Image src={placeholder} alt="Browy side panel chatting about the active tab" />
-  <figcaption>The Browy side panel summarizing a Wikipedia article — your active tab, your Copilot, your machine.</figcaption>
+  <figcaption>Side panel summarizing a Wikipedia article.</figcaption>
 </figure>
 
 ## Why Browy
 
 <CardGrid stagger>
-  <Card title="Lives in your browser" icon="laptop">
-    A Chrome side panel + a small native helper. No headless instance, no
-    second profile, no cloud browser. The agent works on the tabs you
+  <Card title="Lives in the browser" icon="laptop">
+    A Chrome side panel plus a small native helper. No headless instance,
+    no second profile, no cloud browser. Browy runs against the tabs you
     already have open.
   </Card>
-  <Card title="Your Copilot, your machine" icon="seti:github">
-    All LLM traffic flows through your GitHub Copilot subscription via a
-    local CLI. Browy itself runs no server and collects no telemetry.
+  <Card title="Uses your Copilot" icon="seti:github">
+    LLM traffic goes through your existing GitHub Copilot subscription via
+    the local CLI. Browy itself runs no server and collects no telemetry.
   </Card>
-  <Card title="Sees pages, not pixels" icon="setting">
-    Snapshots the accessibility tree and acts by index — no brittle CSS
-    selectors. Falls back to JS evaluation when the snapshot can't
-    express what you need.
+  <Card title="Works on accessibility tree" icon="setting">
+    The agent acts on indexed accessibility nodes instead of CSS selectors,
+    so it doesn't break when class names change. JavaScript evaluation is
+    available when the snapshot can't express what you need.
   </Card>
   <Card title="Open source" icon="open-book">
-    Apache 2.0. Audit the agent loop, fork it, build it yourself.
-    Power-user tools (host shell, filesystem) are off by default and
-    toggle on per-tool in Settings.
+    Apache 2.0. Read the agent loop, fork it, build it yourself. Power-user
+    tools (host shell, filesystem) are off by default and toggle on
+    per-tool in Settings.
   </Card>
 </CardGrid>
 
 ## What you can do
 
 <CardGrid>
-  <LinkCard title='"Summarize this page in 5 bullets"' href="/docs/first-chat/#summarize-this-page" description="Browy reads the article and writes the summary back into the chat. No copy-paste." />
-  <LinkCard title='"Fill out this form for me"' href="/docs/first-chat/#fill-out-this-form-for-me" description="Multi-field form filling by accessibility index. Stops before submit so you can review." />
-  <LinkCard title='"Find the cheapest flight"' href="/docs/first-chat/#find-the-cheapest-flight" description="Multi-step automation in plain English. Navigates, queries, parses, reports back." />
-  <LinkCard title="What's the slowest API call?" href="/docs/first-chat/#inspect-the-network" description="Reads the network log via CDP. Answers questions you'd otherwise need DevTools open for." />
+  <LinkCard title='"Summarize this page in 5 bullets"' href="/docs/first-chat/#summarize-this-page" description="Reads the article and writes the summary back into the chat." />
+  <LinkCard title='"Fill out this form for me"' href="/docs/first-chat/#fill-out-this-form-for-me" description="Multi-field form filling by accessibility index. Stops before submit." />
+  <LinkCard title='"Find the cheapest flight"' href="/docs/first-chat/#find-the-cheapest-flight" description="Navigates a flight-search site, parses results, reports back." />
+  <LinkCard title="What's the slowest API call?" href="/docs/first-chat/#inspect-the-network" description="Reads the network log via CDP. Skips opening DevTools." />
 </CardGrid>
 
 ## Get started
@@ -80,15 +80,15 @@ Then load the unpacked extension from `~/Downloads/Browy-Extension/` in
 </Aside>
 
 <CardGrid>
-  <LinkCard title="Install" href="/docs/install/" description="Native host + extension. ~5 minutes." />
-  <LinkCard title="Your first chat" href="/docs/first-chat/" description="Five example prompts that show what Browy can do." />
-  <LinkCard title="Permissions" href="/docs/permissions/" description="Why Browy asks for each Chrome permission, and what it does (and doesn't) with them." />
-  <LinkCard title="Privacy & data" href="/docs/privacy/" description="What we send, what we store, what we never see." />
+  <LinkCard title="Install" href="/docs/install/" description="Native host plus extension. About 5 minutes." />
+  <LinkCard title="Your first chat" href="/docs/first-chat/" description="Five example prompts to try in the side panel." />
+  <LinkCard title="Permissions" href="/docs/permissions/" description="What each Chrome permission is for." />
+  <LinkCard title="Privacy & data" href="/docs/privacy/" description="What stays on your machine and what goes to GitHub Copilot." />
 </CardGrid>
 
 ## Status <Badge text="Early access" variant="caution" />
 
-Browy is in early access. The native host installer ships from
-[GitHub Releases](https://github.com/BrowyHQ/browy/releases). The Chrome
-Web Store and Edge Add-ons listings are in review — you'll be able to
-install with one click once they're approved.
+The native host installer ships from
+[GitHub Releases](https://github.com/BrowyHQ/browy/releases). Chrome Web
+Store and Edge Add-ons listings are pending review; one-click install
+will land once they're approved.

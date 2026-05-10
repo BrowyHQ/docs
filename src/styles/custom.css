@@ -110,4 +110,23 @@
   --sl-color-bg-inline-code: #102818;
 }
 
+/* ── Card surface contrast ──────────────────────────────────────────────────
+   On the dark green page bg, default Starlight cards are nearly invisible
+   (transparent fill + 1px hairline). Lift them with a tinted surface and
+   a thicker border so they read as distinct panels.
+   ────────────────────────────────────────────────────────────────────────── */
+[data-theme='dark'] .card,
+[data-theme='dark'] starlight-card,
+[data-theme='dark'] .sl-link-card {
+  background: #0f2418;
+  border-color: #1f3826;
+}
+[data-theme='dark'] .sl-link-card:hover {
+  background: #14301f;
+  border-color: #2a4a32;
+}
+[data-theme='dark'] .card .icon {
+  color: #4ade80;
+}
+
 

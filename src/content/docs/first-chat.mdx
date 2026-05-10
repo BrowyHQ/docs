@@ -16,7 +16,7 @@ icon to open the side panel. Try one of these.
 
 <figure class="browy-frame">
   <Image src={panelEmpty} alt="The Browy side panel after a fresh install, with the prompt input focused" />
-  <figcaption>Fresh side panel — just type below.</figcaption>
+  <figcaption>The side panel on first run.</figcaption>
 </figure>
 
 ## "Summarize this page" <Badge text="vision" />
@@ -25,19 +25,18 @@ icon to open the side panel. Try one of these.
 
 <figure class="browy-frame">
   <Image src={panelSummarize} alt="Browy summarizing a Wikipedia article in 5 bullets" />
-  <figcaption>One <code>snapshot</code> tool call, then a streamed answer.</figcaption>
+  <figcaption>One <code>snapshot</code> call, then a streamed answer.</figcaption>
 </figure>
 
 <div>
 
-Open a long article or doc page. In the Browy side panel:
+Open a long article. In the side panel:
 
 > Summarize this page in 5 bullets.
 
-Browy calls its `snapshot` tool to capture the active tab's accessibility
-tree (the same one screen readers see — fast, structural, no rendering),
-sends it to GitHub Copilot, and streams the summary back into the chat.
-**No copy-paste; no screenshot needed.**
+The agent calls its `snapshot` tool to grab the active tab's accessibility
+tree (the same one screen readers use), passes it to GitHub Copilot, and
+streams the answer back. No copy-paste, no screenshot.
 
 </div>
 </div>
@@ -48,18 +47,17 @@ sends it to GitHub Copilot, and streams the summary back into the chat.
 
 <figure class="browy-frame">
   <Image src={panelFillForm} alt="Browy filling a sign-up form for the user, leaving the password field blank" />
-  <figcaption>Fields are addressed by <strong>accessibility index</strong> — no brittle CSS selectors.</figcaption>
+  <figcaption>Fields are addressed by accessibility index, not CSS selectors.</figcaption>
 </figure>
 
 <div>
 
-Open a form (sign-up page, survey, settings page) and tell Browy what to
-fill in:
+Open a form (sign-up, survey, settings page) and tell Browy what to enter:
 
 > My name is Alex Doe, my email is alex@example.com. Fill out this form
-> with that info — leave the password field for me. Don't submit.
+> with that info, leave the password field for me, and don't submit.
 
-Browy clicks fields by their **accessibility index**, types the values,
+The agent clicks each field by its accessibility index, types the value,
 and stops before submit so you can review.
 
 </div>
@@ -72,8 +70,8 @@ Open google.com:
 > Search for flights from SFO to JFK on the 15th, sort by price, and
 > tell me the cheapest one.
 
-Browy will navigate, type the query, click through, read the results,
-and report back. Multi-step automation in plain English.
+The agent navigates, types the query, clicks through to the results
+page, reads what's there, and reports back.
 
 ## "Inspect the network" <Badge text="devtools" />
 
@@ -81,7 +79,7 @@ and report back. Multi-step automation in plain English.
 
 <figure class="browy-frame">
   <Image src={panelNetwork} alt="Browy reporting the slowest API call on a dashboard page" />
-  <figcaption>Network log via Chrome DevTools Protocol — full URLs, headers, timings.</figcaption>
+  <figcaption>Reads the network log via the Chrome DevTools Protocol.</figcaption>
 </figure>
 
 <div>
@@ -91,8 +89,8 @@ Open any web app:
 > What's the slowest API call on this page when I refresh? Show me the
 > URL, status code, and time.
 
-Browy reads the network log via the **Chrome DevTools Protocol** and
-answers from data you don't have to open DevTools to see.
+The agent reads the network log via the Chrome DevTools Protocol and
+answers without making you open DevTools.
 
 </div>
 </div>
@@ -103,19 +101,17 @@ answers from data you don't have to open DevTools to see.
 
 <figure class="browy-frame">
   <Image src={panelEvaluate} alt="Browy listing buttons that are missing aria-labels" />
-  <figcaption>Arbitrary JS in the page context — top-level <code>await</code> works.</figcaption>
+  <figcaption>Runs JavaScript in the page context. Top-level <code>await</code> works.</figcaption>
 </figure>
 
 <div>
 
-For deeper inspection, the agent can evaluate arbitrary JavaScript in
-the page context:
+For deeper inspection, the agent can run JavaScript directly in the page:
 
 > Find every `<button>` on the page that has no `aria-label` and tell
 > me what it says.
 
-The `evaluate_js` tool runs your request as JS in the page and returns
-the result. Top-level `await` works.
+`evaluate_js` runs your request as JS in the page and returns the result.
 
 </div>
 </div>
@@ -178,9 +174,9 @@ machine.
 ## What's next?
 
 <CardGrid>
-  <LinkCard title="DevTools CLI" href="/docs/devtools-cli/" description="The Browy agent inside Chrome DevTools — slash commands, live model picker, terminal feel." />
-  <LinkCard title="Tools the agent has" href="/docs/tools/" description="Full reference of every tool Browy exposes to the LLM — vision, click/type, network, persistent disk, more." />
+  <LinkCard title="DevTools CLI" href="/docs/devtools-cli/" description="The agent inside Chrome DevTools — slash commands and a terminal feel." />
+  <LinkCard title="Tools the agent has" href="/docs/tools/" description="Reference for every tool the agent can call." />
   <LinkCard title="Permissions" href="/docs/permissions/" description="What the extension can and cannot access in your browser." />
-  <LinkCard title="Privacy & data" href="/docs/privacy/" description="What leaves your machine, and what doesn't." />
-  <LinkCard title="Roadmap & contributing" href="/docs/roadmap/" description="The live project board, open issues, and how to contribute." />
+  <LinkCard title="Privacy & data" href="/docs/privacy/" description="What stays on your machine and what goes to GitHub Copilot." />
+  <LinkCard title="Roadmap & contributing" href="/docs/roadmap/" description="Project board, open issues, and how to contribute." />
 </CardGrid>
