@@ -8,36 +8,24 @@ import { Badge, LinkCard, CardGrid, Aside } from '@astrojs/starlight/components'
 For full commit history see the
 [GitHub releases](https://github.com/BrowyHQ/browy/releases).
 
-## v0.1.1 <Badge text="Latest" variant="success" />
+## v0.1 <Badge text="Latest" variant="success" />
 
-*Released 2026-05-09*
+First public release.
 
-**Side panel**
-- "New chat" and "Past chats" buttons stay enabled even when the host
-  is offline.
-- Inline **Sign in to GitHub Copilot** button appears on auth errors —
-  opens a terminal with the device-flow link.
-- Reconnect banner shows transient host failures with exponential
-  backoff (5 attempts) before surfacing a "Reinstall host" CTA.
-
-**Docs**
-- Public docs site (this site) launched at
-  [browyhq.github.io/docs](/docs/).
-
-**Build**
-- Restored CI release workflow for the new zip layout.
-
-## v0.1.0
-
-*First public-ish release.*
-
-- Chrome side-panel UI with chat history, model picker, and
+- Chrome side-panel chat with history, model picker, and
   reasoning-effort selector.
-- Native messaging host wrapping the GitHub Copilot CLI.
-- Tool allowlist: 30+ browser tools — snapshot, click, type, navigate,
-  tabs, evaluate_js, run_script, network/console logs, sandboxed disk
-  + persistent memory, await_user.
-- Multi-browser support: Chrome, Edge, Brave.
+- DevTools "Browy" panel with slash commands (`/page`, `/net`,
+  `/console`, `/perf`, `/eval`).
+- Native messaging host wrapping the GitHub Copilot CLI — bring your
+  own Copilot subscription, no Browy server.
+- 30+ browser tools by default: snapshot, click, type, navigate, tabs,
+  `evaluate_js`, `run_script`, network/console logs, sandboxed disk,
+  persistent memory, `await_user`.
+- Optional host tools (`bash`, `read_file`, `write_file`, `grep`,
+  `glob`, `web_fetch`) — off by default, enable per-tool under
+  Settings → Tools.
+- Multi-browser support: Chrome, Edge, Brave (and other Chromium
+  builds).
 - One-line PowerShell installer for Windows.
 
 ---
