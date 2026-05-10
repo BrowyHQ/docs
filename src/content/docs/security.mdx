@@ -36,10 +36,11 @@ Anything that lets an attacker:
 Any prompt-injection attack on a visited page can affect the agent's
 behavior. That's an inherent property of all page-driving agents, and
 the threat model assumes it. Browy bounds the blast radius two ways:
-host shell, filesystem, and arbitrary HTTP are blocked from the
-browser surfaces by a strict allowlist (no Settings toggle exposes
-them), and every browser tool that *is* exposed can be individually
-disabled in [Settings → Tools](/docs/tools/).
+host shell, filesystem, and arbitrary HTTP (`bash`, `read_file`,
+`write_file`, `grep`, `glob`, `web_fetch`) are **off by default** and
+gated behind a strict allowlist that only honours per-tool opt-ins
+from [Settings → Tools](/docs/tools/); and every browser tool that
+*is* exposed can be individually disabled in the same place.
 </Aside>
 
 Issues in third-party software Browy depends on (Chrome, Node.js,
@@ -72,6 +73,13 @@ For users:
     **Settings → Tools** is the source of truth for which browser tools
     the agent can call. Turn off `evaluate_js` or `screenshot` for
     stricter setups.
+  </Card>
+  <Card title="Host tools are off by default" icon="warning">
+    `bash`, `read_file`, `write_file`, `grep`, `glob`, `web_fetch` reach
+    your machine — not just the browser tab. They're gated behind
+    explicit per-tool opt-in under Settings → Tools → host (advanced).
+    Leave them off unless you trust every site you'll visit during the
+    session.
   </Card>
   <Card title="Don't run untrusted JavaScript" icon="warning">
     Don't ask the agent to evaluate code (via `evaluate_js` or
