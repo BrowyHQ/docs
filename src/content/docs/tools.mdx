@@ -22,50 +22,74 @@ Search for `register({` to see every tool.
 ## Categories
 
 <Tabs>
-<TabItem label="Vision">
+<TabItem label="See the page">
 
 | Tool | What it does |
 |---|---|
-| `snapshot` | Indexed accessibility-tree snapshot of the active tab. The agent uses the `[N]` indexes to click and type without CSS selectors. |
-| `screenshot` | PNG of the visible viewport (or full page). |
-| `read_visible` | Visible text of the page. |
+| `inspect_page` | Indexed accessibility-tree snapshot of the active tab. The `[N]` indices feed all the `*_index` tools below. |
+| `get_page_info` | URL, title, meta description, visible-text preview. |
+| `get_page_html` | HTML of the page or a selector (≤8KB). |
+| `extract_text` | Visible text of page or selector (≤4KB). |
+| `extract_form` | Enumerate inputs of a form for `fill_form`. |
+| `query_dom` | CSS-selector fallback when the indexed tools can't reach what you need. |
+| `find_visible_text` | Locate elements by their on-screen text. |
+| `accessibility_snapshot` | Raw AXTree-style accessibility info. |
+| `get_event_listeners` | List event listeners attached to an element. |
+| `get_storage` | Read `localStorage` / `sessionStorage` for the current origin. |
+| `screenshot` | PNG of the viewport, saved to disk + previewed inline. |
 
 </TabItem>
 <TabItem label="Click / type / nav">
 
 | Tool | What it does |
 |---|---|
-| `click(index)` | Click an element by its snapshot index. |
-| `type(index, text)` | Focus an input by index and type into it. |
-| `key(key)` | Press a keyboard key (`Enter`, `Escape`, `Tab`, …). |
-| `scroll(direction, px?)` | Scroll the page or a scroll container. |
-| `navigate(url)` | Open a URL (in a new tab by default). |
+| `click_index` | Click element by its `inspect_page` index. |
+| `type_index` | Focus an input by index and type text into it. |
+| `focus_index` | Native CDP focus (used to trigger Chrome's saved-password autofill). |
+| `clear_index` | Clear an input by index. |
+| `select_index` | Pick a `<select>` option by index. |
+| `check_index` | Toggle a checkbox by index. |
+| `set_radio_index` | Set a radio group by index. |
+| `upload_index` | Attach a file to an `<input type=file>` by index. |
+| `press_keys` | Send keystrokes (`Tab`, `Enter`, `Ctrl+A`…). |
+| `press_key` | Press a single key. |
+| `fill_form` / `submit_form` | Bulk-fill a form, then submit. |
+| `click_element` / `fill_input` / `select_option` / `hover` | CSS-selector cousins of the indexed tools. |
+| `scroll` | Scroll the page or a specific scroll container. |
+| `navigate` | Open a URL (in a new tab by default). |
+| `wait_for` | Wait for selector / navigation / timeout. |
 
 </TabItem>
 <TabItem label="Tabs">
 
 | Tool | What it does |
 |---|---|
-| `list_tabs` | List open tabs (title, URL, id). |
-| `switch_tab(id)` | Bring a tab to the foreground. |
-| `new_tab(url?)` | Open a new tab. |
-| `close_tab(id)` | Close a tab. |
+| `list_tabs` | List open tabs (index, URL, title). |
+| `switch_tab` | Bring a tab to the foreground and target it for subsequent calls. |
+| `new_tab` | Open a new tab. |
+| `close_tab` | Close a tab by index. |
 
 </TabItem>
 <TabItem label="Page scripting">
 
 | Tool | What it does |
 |---|---|
-| `evaluate_js(code)` | Run JavaScript in the page (top-level `await` works). For shadow-DOM walks, custom waits, structured extraction. |
-| `query_dom(selector)` | CSS selector fallback when the indexed tools can't reach what you need. |
+| `evaluate_js` | Run JavaScript in the page (top-level `await` works). For shadow-DOM walks, custom waits, structured extraction. |
+| `run_script` | Fetch a URL and execute the response as JS in the page (for one-off helpers, vendored snippets). |
+| `set_viewport` | Resize the viewport (e.g. test mobile breakpoints). |
+| `pdf_export` | Save the current page as a PDF. |
 
 </TabItem>
 <TabItem label="Network & console">
 
 | Tool | What it does |
 |---|---|
-| `network_log` | Recent network requests (URL, method, status, timing, headers). |
-| `console_log` | Recent console messages and exceptions. |
+| `get_network_requests` | Recent network requests (URL, method, status, timing, headers). |
+| `get_console_logs` | Recent console messages and exceptions. |
+| `get_cookies` / `set_cookie` | Read or write cookies for the current origin. |
+| `replay_request` | Re-issue a captured request with optional header / body overrides. |
+| `download_file` | Trigger a file download. |
+| `upload_file` | Upload a file via a file picker. |
 
 </TabItem>
 <TabItem label="Disk + memory">
@@ -74,8 +98,8 @@ Sandboxed at `~/.browy/data/`:
 
 | Tool | What it does |
 |---|---|
-| `save_file(filename, content)`, `read_file`, `list_files`, `delete_file` | Scratch disk for cached scrapes and intermediate work. Paths are relative to the data root and can't escape it. |
-| `note_set(key, value, category?)`, `note_get`, `note_list`, `note_delete` | Persistent key-value memory that survives across different chats (user preferences, long-lived facts). |
+| `save_file` / `read_file` / `list_files` / `delete_file` | Scratch disk for cached scrapes and intermediate work. Paths are relative to the data root and can't escape it. |
+| `note_set` / `note_get` / `note_list` / `note_delete` | Persistent key-value memory that survives across different chats (user preferences, long-lived facts). |
 
 <Aside type="caution" title="Notes vs conversation history">
 `note_*` is not the agent's conversation history. The agent always has
@@ -88,7 +112,7 @@ context.
 
 | Tool | What it does |
 |---|---|
-| `await_user(message)` | Pause and ask you to do something yourself (solve a CAPTCHA, click a confirmation, choose between two options). |
+| `await_user` | Pause and ask you to do something yourself (sign in, solve a CAPTCHA, click a confirmation, choose between two options). |
 
 </TabItem>
 </Tabs>
@@ -106,9 +130,9 @@ Common reasons to disable a tool:
 
 <CardGrid>
   <Card title="Stricter sandbox" icon="seti:lock">
-    Turn off `evaluate_js` if you don't want the agent running
-    JavaScript in the inspected page. The structured tools (`click`,
-    `type`, `navigate`, etc.) keep working.
+    Turn off `evaluate_js` and `run_script` if you don't want the agent
+    running JavaScript in the inspected page. The structured tools
+    (`click_index`, `type_index`, `navigate`, etc.) keep working.
   </Card>
   <Card title="Read-only mode" icon="seti:eye">
     Disable everything in _interact_ and _navigate_ and keep _inspect_
@@ -116,8 +140,8 @@ Common reasons to disable a tool:
     them.
   </Card>
   <Card title="No JS evaluation" icon="seti:javascript">
-    Some teams disable `evaluate_js` and `query_dom` to limit the agent
-    to the structured accessibility-tree tools only.
+    Some teams disable `evaluate_js`, `run_script`, and `query_dom` to
+    limit the agent to the structured accessibility-tree tools only.
   </Card>
 </CardGrid>
 

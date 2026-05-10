@@ -70,12 +70,12 @@ For users:
 <CardGrid>
   <Card title="Review what's enabled" icon="setting">
     **Settings → Tools** is the source of truth for which browser tools
-    the agent can call. Turn off `eval_js` or `screenshot` for stricter
-    setups.
+    the agent can call. Turn off `evaluate_js` or `screenshot` for
+    stricter setups.
   </Card>
   <Card title="Don't run untrusted JavaScript" icon="warning">
-    Don't ask the agent to evaluate code (via `eval_js`) from a source
-    you don't trust.
+    Don't ask the agent to evaluate code (via `evaluate_js` or
+    `run_script`) from a source you don't trust.
   </Card>
   <Card title="Trust the yellow banner" icon="warning">
     Chrome's *"Browy started debugging…"* banner is the reminder that

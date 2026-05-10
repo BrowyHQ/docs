@@ -25,7 +25,7 @@ icon to open the side panel. Try one of these.
 
 <figure class="browy-frame">
   <Image src={panelSummarize} alt="Browy summarizing a Wikipedia article in 5 bullets" />
-  <figcaption>One <code>snapshot</code> call, then a streamed answer.</figcaption>
+  <figcaption>One <code>inspect_page</code> call, then a streamed answer.</figcaption>
 </figure>
 
 <div>
@@ -34,7 +34,7 @@ Open a long article. In the side panel:
 
 > Summarize this page in 5 bullets.
 
-The agent calls its `snapshot` tool to grab the active tab's accessibility
+The agent calls its `inspect_page` tool to grab the active tab's accessibility
 tree (the same one screen readers use), passes it to GitHub Copilot, and
 streams the answer back. No copy-paste, no screenshot.
 
@@ -146,7 +146,7 @@ tables).
 ## During a turn
 
 - **Streaming text** appears live as the model generates it.
-- **Tool calls** render as inline cards (`▸ click { index: 14 }`).
+- **Tool calls** render as inline cards (`▸ click_index { index: 14 }`).
   Click to expand and see arguments and result. Failed tool calls are
   surfaced with their error.
 - **Reasoning** (when the model emits it) shows in a dim block above
