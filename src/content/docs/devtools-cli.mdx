@@ -78,6 +78,7 @@ These run locally in DevTools and don't go through the model.
 | `/snapshot` | Quick page summary (title, URL, headings) |
 | `/dom <selector>` | `querySelectorAll` summary for a CSS selector |
 | `/eval <expr>` | Eval JavaScript in the inspected page |
+| `/js` | Toggle a **JS REPL mode** — every line is evaluated in the inspected page until you `/js` again |
 
 ### UI & meta
 
@@ -123,10 +124,8 @@ The model badge in the toolbar always shows the active choice.
 Tracked in the open on the
 [GitHub project board](https://github.com/orgs/BrowyHQ/projects).
 
-- **REPL co-coding**: agent and human alternate edits on the same file,
-  with explicit handoffs (`:edit`, `:continue`).
 - **Attach to running session**: open a debug view of an active Browy
-  side-panel session from the terminal.
+  side-panel session from the panel.
 
 ## See also
 
