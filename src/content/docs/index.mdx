@@ -25,8 +25,7 @@ import { Image } from 'astro:assets';
 
 Browy is a Chrome side-panel agent. You chat with it; it reads the active
 tab, clicks through pages, fills forms, runs JavaScript, captures
-screenshots, and remembers things across sessions. The model is **GitHub
-Copilot**, called through the local CLI.
+screenshots, and remembers things across sessions.
 
 <figure class="browy-frame">
   <Image src={placeholder} alt="Browy side panel chatting about the active tab" />
@@ -40,11 +39,11 @@ Copilot**, called through the local CLI.
     A Chrome side panel and a small native helper. Works against the
     tabs you already have open.
   </Card>
-  <Card title="Uses your Copilot" icon="seti:github">
-    LLM traffic goes through your existing GitHub Copilot subscription
-    via the local CLI.
+  <Card title="Pick your model" icon="setting">
+    Switch between frontier models (Claude, GPT, Gemini, Llama) on
+    the fly with `/model` or in Settings.
   </Card>
-  <Card title="Works on accessibility tree" icon="setting">
+  <Card title="Works on accessibility tree" icon="seti:html">
     The agent acts on indexed accessibility nodes instead of CSS selectors,
     so it doesn't break when class names change. JavaScript evaluation is
     available when the snapshot can't express what you need.
@@ -83,7 +82,7 @@ Then load the unpacked extension from `~/Downloads/Browy-Extension/` in
   <LinkCard title="Install" href="/docs/install/" description="Native host plus extension. About 5 minutes." />
   <LinkCard title="Your first chat" href="/docs/first-chat/" description="Five example prompts to try in the side panel." />
   <LinkCard title="Permissions" href="/docs/permissions/" description="What each Chrome permission is for." />
-  <LinkCard title="Privacy & data" href="/docs/privacy/" description="What stays on your machine and what goes to GitHub Copilot." />
+  <LinkCard title="Privacy & data" href="/docs/privacy/" description="What stays on your machine and what leaves." />
 </CardGrid>
 
 ## Status <Badge text="Early access" variant="caution" />
