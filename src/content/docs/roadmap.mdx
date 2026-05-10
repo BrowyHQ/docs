@@ -38,6 +38,30 @@ with a clear use case**, or react with 👍 on an existing one. We watch
 both.
 </Aside>
 
+## What's on deck
+
+A non-exhaustive list of things we know we want to build next. Each
+links to a tracking issue you can 👍 to push up the queue.
+
+- **Agent ↔ human REPL co-coding** — pair-programming mode in the
+  DevTools panel where the agent and you take turns editing the same
+  file (Aider-style).
+- **Connect to a running session** — open a debug view of an
+  already-running Browy session for inspection and replay.
+- **macOS + Linux installers** — today only the Windows PowerShell
+  one-liner exists; the host runs on all three, the wrappers don't.
+- **Local-model fork** — the agent loop is decoupled from the LLM
+  client, so swapping Copilot for a local Ollama-style model is
+  plausible.
+- **Recipes / saved workflows** — turn a chat sequence into a named,
+  reusable flow ("every Monday, summarise my Gmail unreads").
+- **Per-site memory namespaces** — scope the `remember` tool by
+  origin so prefs don't leak across sites.
+- **Multi-tab coordination tools** — beyond `tabs.list` / `switch_tab`,
+  e.g. "open these 5 URLs and gather X from each."
+- **Screenshot-grounded verification fallback** — for canvas / WebGL
+  UIs where DOM-diff verification has nothing to read.
+
 ## Contributing
 
 Contributions are welcome. The repo's
