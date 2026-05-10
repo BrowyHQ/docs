@@ -1,4 +1,0 @@
-# GitHub honors .mailmap for the commits/contributors UI and `git log/shortlog`.
-# Maps any historical email to the canonical project identity.
-Ritabrata Maiti <noreply@browy.dev> <t-rmaiti@microsoft.com>
-Ritabrata Maiti <noreply@browy.dev> t-rmaiti <t-rmaiti@microsoft.com>
