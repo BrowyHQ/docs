@@ -19,6 +19,33 @@ hero:
       link: https://github.com/BrowyHQ
       icon: external
       variant: minimal
+head:
+  - tag: script
+    attrs:
+      type: application/ld+json
+    content: |
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Browy",
+        "description": "An open-source AI agent that lives in a Chrome side panel and DevTools REPL. Drives real browser tabs through chat — clicks, form-fills, scrapes, runs JavaScript.",
+        "url": "https://browy.dev",
+        "applicationCategory": "BrowserApplication",
+        "operatingSystem": "Windows, macOS, Linux",
+        "downloadUrl": "https://chromewebstore.google.com/detail/iondecjdokngnlkfpipgolgkfegpmjca",
+        "softwareVersion": "0.1.3",
+        "license": "https://www.apache.org/licenses/LICENSE-2.0",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Ritabrata Maiti",
+          "url": "https://github.com/ritabratamaiti"
+        }
+      }
 ---
 
 import { Card, CardGrid, LinkCard, Aside, Badge } from '@astrojs/starlight/components';
@@ -71,6 +98,13 @@ and a small **native messaging host** you install with one command. The
   <LinkCard title='"Fill out this form for me"' href="/docs/first-chat/#fill-out-this-form-for-me" description="Multi-field form filling by accessibility index. Stops before submit." />
   <LinkCard title='"Find the cheapest flight"' href="/docs/first-chat/#find-the-cheapest-flight" description="Navigates a flight-search site, parses results, reports back." />
   <LinkCard title="What's the slowest API call?" href="/docs/first-chat/#inspect-the-network" description="Reads the network log via CDP. Skips opening DevTools." />
+</CardGrid>
+
+## Writing
+
+<CardGrid>
+  <LinkCard title="AI slop killed the open-source bug bounty" href="/docs/blog/ai-slop-killed-the-bug-bounty/" description="Why a real database project just shut down a $1,000-per-bug program — and what it says about every open queue on the internet." />
+  <LinkCard title="All posts" href="/docs/blog/" description="Notes on AI agents, browser automation, and open-source infra." />
 </CardGrid>
 
 ## Get started

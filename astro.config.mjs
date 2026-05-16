@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
@@ -14,6 +15,19 @@ export default defineConfig({
       description: 'The AI agent that lives in your browser. Drives real tabs through chat. Side panel + DevTools REPL.',
       logo: { src: './src/assets/logo.png', replacesTitle: false },
       customCss: ['./src/styles/custom.css'],
+      // Global head injection — runs on every page. Per-page frontmatter
+      // `head:` blocks are appended after this and can override.
+      head: [
+        // Default social card so link previews aren't blank.
+        { tag: 'meta', attrs: { property: 'og:image', content: 'https://browyhq.github.io/docs/og-default.png' } },
+        { tag: 'meta', attrs: { property: 'og:image:width', content: '1200' } },
+        { tag: 'meta', attrs: { property: 'og:image:height', content: '630' } },
+        { tag: 'meta', attrs: { name: 'twitter:card', content: 'summary_large_image' } },
+        { tag: 'meta', attrs: { name: 'twitter:image', content: 'https://browyhq.github.io/docs/og-default.png' } },
+        { tag: 'meta', attrs: { name: 'theme-color', content: '#0a1f12' } },
+        // Canonical author for blog posts (overridable per-post)
+        { tag: 'meta', attrs: { name: 'author', content: 'Ritabrata Maiti' } },
+      ],
       components: {
         Hero: './src/components/Hero.astro',
       },
@@ -58,7 +72,17 @@ export default defineConfig({
             { label: 'Roadmap & contributing', slug: 'roadmap' },
           ],
         },
+        {
+          label: 'Writing',
+          items: [
+            { label: 'Blog', slug: 'blog' },
+          ],
+        },
       ],
+    }),
+    sitemap({
+      // Drop the .new staging file if any and the OG image binaries from sitemap.
+      filter: (page) => !page.includes('/.well-known/') && !page.endsWith('.png'),
     }),
   ],
 });
