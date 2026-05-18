@@ -1,0 +1,115 @@
+---
+title: 权限说明
+description: Browy 为什么需要每一个 Chrome 权限，以及它会用这些权限做什么、不会做什么。
+---
+
+import { Aside, CardGrid, Card, LinkCard, Badge } from '@astrojs/starlight/components';
+
+Browy 是一个浏览器自动化智能体。侧边栏跑一个对话 UI；配套的原生
+消息主机（一个你单独安装的小型 Node.js 进程）把 GitHub Copilot CLI
+作为大模型后端运行，返回的工具调用由扩展在你的浏览器里执行。
+
+这一页说明 `extension/manifest.json` 里每一个权限为什么必要。
+Chrome Web Store 商店页面里的权限说明用的是同样的文本。
+
+<Aside type="tip" title="摘要">
+Browy 是一个通用的浏览器智能体，所以权限要覆盖你可能让它操作的任何
+站点。它只对你从侧边栏指定的标签页有动作。触碰主机的工具（shell、
+文件系统、HTTP）默认是关的，需要在 设置 → 工具 里手动开启。
+</Aside>
+
+## 权限
+
+### `sidePanel` <Badge text="UI" variant="success" />
+
+Browy 的主要 UI 就是 Chrome 侧边栏（对话、历史、设置）。这个权限
+是注册 `sidepanel.html` 必需的。
+
+### `debugger` <Badge text="核心" variant="caution" />
+
+智能体通过 **Chrome DevTools Protocol**（用 `chrome.debugger.attach`）
+来截取页面快照、按可访问性索引点击和输入、执行 JavaScript、捕获
+网络和控制台事件。这是 Browy 能不依赖脆弱的 CSS 选择器就读取和
+驱动页面的原因。
+
+<Aside type="note" title='"Browy started debugging this browser"'>
+会话进行中时 Chrome 会显示它标准的调试横幅。任何使用 DevTools
+Protocol 的扩展都会触发这个横幅；断开会话之后横幅就会消失。
+</Aside>
+
+### `tabs` <Badge text="核心" />
+
+读取标签页标题和 URL 来填充智能体的上下文（`list_tabs`、
+`switch_tab`），打开新标签页（`new_tab`、`navigate`），并在你说
+"对这个页面"做某事时把智能体路由到正确的标签页。
+
+### `activeTab` <Badge text="核心" />
+
+和 `tabs` 一起使用，让侧边栏在每次动作前不再要求确认就能识别
+当前聚焦的标签页。
+
+### `scripting` <Badge text="核心" />
+
+当智能体需要在页面上下文里执行 JS（`evaluate_js` 工具），或者抽取
+快照表达不了的结构化数据时，注入 content script。
+
+### `storage` <Badge text="本地" variant="success" />
+
+持久化对话历史、用户设置（模型、推理强度、主题）和上次使用的
+标签页。全部本地存储（`chrome.storage.local`），**什么都不上传**。
+
+### `nativeMessaging` <Badge text="核心" />
+
+连接到本机安装的 Browy 原生主机（`com.browy.host`），由它在你机器
+上运行 GitHub Copilot CLI。所有大模型流量走的是你自己的 Copilot
+订阅，**不经过 Browy 的任何服务器**。
+
+### `notifications` <Badge text="UX" />
+
+把"主机已断开"、"需要登录"等需要你操作的状态消息显示在侧边栏外面，
+这样你在别的标签页里工作时也不会错过。
+
+### `downloads` <Badge text="可选" />
+
+通过 `chrome.downloads.download` 把智能体产出的工件（比如导出的
+抓取数据、生成的文件）保存到你的下载目录。
+
+### `alarms` <Badge text="内部" />
+
+定时给后台 service worker 发保活的 ping。Chrome 会激进地挂起 MV3
+service worker；alarms 让原生消息端口保持响应，又不需要忙循环。
+
+## `host_permissions`
+
+### `<all_urls>` <Badge text="必需" variant="caution" />
+
+你会让 Browy 操作你访问的任何站点，所以扩展声明了对所有 URL 的
+权限。智能体只会附加到你从侧边栏指定的标签页上。`<all_urls>` 是
+一道门，不是后台爬取的许可证。
+
+## Browy 的架构
+
+<CardGrid>
+  <Card title="本地原生主机" icon="rocket">
+    页面内容通过本地 Copilot CLI 发给 **GitHub Copilot**，和你在
+    终端里跑 `gh copilot` 是完全一样的路径。
+  </Card>
+  <Card title="没有后台活动" icon="moon">
+    只有当你在侧边栏发消息时智能体才会行动。
+  </Card>
+  <Card title="严格的工具白名单" icon="setting">
+    原生主机让每次模型调用都走一个严格的白名单。浏览器驱动类工具
+    默认开启，每一个都可以在
+    [设置 → 工具](/zh-cn/tools/#configurable-per-tool-toggles)
+    里关掉；触碰主机的工具（shell、文件系统、`web_fetch`）默认关闭，
+    需要按工具显式开启。
+  </Card>
+</CardGrid>
+
+## 另见
+
+<CardGrid>
+  <LinkCard title="隐私与数据" href="/zh-cn/privacy/" description="完整的数据处理说明。" />
+  <LinkCard title="可用工具" href="/zh-cn/tools/" description="智能体可以调用的每一个工具，以及对应的设置开关。" />
+  <LinkCard title="安全" href="/zh-cn/security/" description="如何报告漏洞。" />
+</CardGrid>

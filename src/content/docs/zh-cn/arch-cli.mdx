@@ -1,0 +1,113 @@
+---
+title: "架构：DevTools CLI"
+description: "Browy DevTools 面板的 REPL 是怎么搭出来的：斜杠命令、自动补全、历史、模型选择器。"
+---
+
+import { CardGrid, Card, LinkCard, Aside } from '@astrojs/starlight/components';
+
+DevTools CLI 是一个小型的、无外部依赖的 TypeScript 风格实现，
+住在 `extension/panel.{html,js,css}` 里。它挂载到由
+`extension/devtools.js` 注册的 DevTools 面板里。
+
+如果你只是想知道*怎么用*，请看
+[DevTools CLI 页面](/zh-cn/devtools-cli/)。这一页是给好奇它怎么搭
+出来的贡献者看的。
+
+## 文件
+
+| 文件 | 作用 |
+|---|---|
+| `extension/devtools.html` | 一个小壳，加载 `devtools.js` |
+| `extension/devtools.js` | 调用 `chrome.devtools.panels.create('Browy', icon, 'panel.html')` |
+| `extension/panel.html` | 工具栏 + 日志 + 自动补全列表 + 文本框 |
+| `extension/panel.css` | 复古黑底绿字的视觉风格 |
+| `extension/panel.js` | 全部行为：REPL、斜杠命令、port 黏合 |
+
+## REPL 循环
+
+`panel.js` 维护一个 `<div id="log">`，里面装的是若干"行"（banner /
+dim / ok / err / model / tool / output）。下面的文本框是 prompt。
+按 `Enter` 时：
+
+1. 如果输入以 `/` 开头，派发到斜杠命令登记表（`panel.js` 大约第 200
+   行附近的 `COMMANDS` 数组）。
+2. 否则，把 `{type: 'user', text, sessionId}` 通过 port 发给
+   [原生主机](/zh-cn/arch-backend/)，加一行，把 `delta` 块流式追加
+   到一行不断增长的助手输出里。
+
+回合进行中按 `Esc`，面板会发 `{type: 'cancel'}` 给主机，并显示一条
+dim 的"cancelled"行。
+
+## 斜杠命令登记表
+
+每个命令是一个 `{name, help, run}` 三元组：
+
+```js
+const COMMANDS = [
+  { name: '/help',  help: 'Show available commands',           run: cmdHelp },
+  { name: '/clear', help: 'Clear the scrollback (Ctrl+L)',     run: () => clearLog() },
+  { name: '/model', help: 'Show or pick the active model',     run: cmdModel },
+  { name: '/login', help: 'Sign in to GitHub Copilot',         run: cmdLogin },
+];
+```
+
+`/?` → `/help` 和 `/models` → `/model` 是别名，在派发时处理。
+新增命令只需要追加一条记录。
+
+## 自动补全
+
+列表框 `#ac` 在你输入斜杠时显示匹配的 `COMMANDS` 条目。方向键
+移动选中项，`Tab` / `Enter` 确认。实现方式是对 `name` 加 `help` 第
+一行做简单子串匹配。
+
+## 模型选择器
+
+`/model` 不带参数时从主机获取模型列表（`{type: 'list_models'}` →
+主机调用 Copilot SDK 的 `listModels()`），把每个模型渲染成一个可
+点击的行。点击会替你发 `/model <id>`。工具栏的 `#model` 徽章在
+收到 `model_changed` 事件时更新。
+
+## 历史
+
+输入框为空时上下方向键浏览以前 prompt 的栈。只存在内存里。DevTools
+面板在页面刷新时会被重建，所以历史是按会话的。
+
+## 按目标绑定
+
+因为每个 DevTools 面板绑定一个被检查的目标，面板的 `sessionId` 用
+被检查的 URL 做命名空间。在三个标签页里打开 DevTools，就是三个
+独立的智能体会话。
+
+这是故意的：让 DevTools CLI 成为按页面的工具，和 inspector 是按
+页面的方式保持一致。
+
+## 为什么单独搞一个 `panel.js`？
+
+我们本可以在侧边栏 UI 里渲染 REPL，把它叫做 "DevTools 模式"。我们
+没这么做，原因是：
+
+- DevTools 面板和 inspector、network、console 待在一起，给高级用户
+  *想要的*上下文，紧挨着智能体。
+- DevTools 面板的 UI 基本组件（工具栏按钮、主题、`Ctrl+L` 清屏这
+  类宿主快捷键）和普通侧边栏在很多细节上不同。分开保留可以避免在
+  侧边栏代码里到处出现 `if (devtools)` 分叉。
+- 这让两个表面可以独立演进：侧边栏可以保持友好和对话风格；
+  DevTools CLI 可以长出更多高级用户功能（REPL 结对编程、接入
+  正在运行的会话），不会把侧边栏弄复杂。
+
+## 即将到来
+
+下面这些在
+[GitHub 项目看板](https://github.com/orgs/BrowyHQ/projects)上跟踪：
+
+- **REPL 结对编程**：明确的交接语法（`:edit`、`:continue`），用来
+  在同一个文件上和智能体结对。
+- **接入正在运行的会话**：用调试视图查看正在进行的侧边栏智能体。
+
+## 另见
+
+<CardGrid>
+  <LinkCard title="DevTools CLI（用户指南）" href="/zh-cn/devtools-cli/" description="斜杠命令、模型选择器、键盘。" />
+  <LinkCard title="架构：原生主机" href="/zh-cn/arch-backend/" description="port 的另一端。" />
+  <LinkCard title="架构：扩展" href="/zh-cn/arch-frontend/" description="DevTools 面板在整个扩展里的位置。" />
+</CardGrid>

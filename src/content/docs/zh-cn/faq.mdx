@@ -1,0 +1,113 @@
+---
+title: 常见问题
+description: "Browy 的常见问题：定价、和 Browser-Use、Skyvern、Aider 的对比、隐私、支持的浏览器，等等。"
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+常见问题。没找到你的？[开一个 issue](https://github.com/BrowyHQ/browy/issues/new)。
+
+## Browy 是免费的吗？
+
+**是。** Browy 是 Apache-2.0 协议下的开源软件。代码、本地主机、
+扩展都是免费的。
+
+大模型部分需要你自带 [GitHub Copilot](https://github.com/features/copilot)
+订阅。如果你已经有 Copilot（免费版或付费版），Browy 不会再额外收费。
+和你在编辑器或终端里用的是同一份 Copilot 配额。
+
+## Browy 和 Browser-Use 怎么比？
+
+两个都是开源的浏览器自动化智能体。部署模型不同：
+
+| | **Browy** | [Browser-Use](https://github.com/browser-use/browser-use) |
+|---|---|---|
+| 形式 | 浏览器扩展（Chrome / Edge / Brave） | Python 库 |
+| 操作对象 | 你**真实**的、已登录的浏览器配置 | 全新的 Playwright 沙箱 |
+| 大模型 | 你的 GitHub Copilot 订阅 | 你的 OpenAI / Anthropic 等 API key |
+| UI | 侧边栏对话 + DevTools CLI | 编程接口 |
+| 适合的场景 | 日常标签页自动化、"用我已登录的账号做这件事"类任务 | Headless 爬取、批量任务、CI |
+
+Browy 的核心卖点是**会话复用**：你的 cookie、登录态、密码管理器、
+其他扩展全都还在。每一次任务都不用重新登 Gmail、Slack 或 GitHub。
+
+## Browy 和 Skyvern 怎么比？
+
+[Skyvern](https://github.com/Skyvern-AI/skyvern) 是一个开源浏览器
+自动化工具，同时提供托管 SaaS。Browy 是一个本地运行的 Chrome 扩展
+加原生消息主机。想要开箱即用的托管产品选 Skyvern；想要一个驱动你
+真实浏览器配置的扩展，选 Browy。
+
+## Browy 是 Aider / Cline / Cursor 的替代品吗？
+
+不是，它们是互补的。Aider、Cline、Cursor 编辑你磁盘上的代码仓库；
+Browy 驱动你的浏览器。代码用编程智能体、标签页用 Browy。如果你想
+让 Browy 也能访问文件系统和 shell，可以在 设置 → 工具 里启用主机
+工具（`bash`、`read_file`、`write_file` 等），但是专门的编程智能体
+会给你更好的编辑体验。
+
+## Browy 能离线用吗？
+
+不能。大模型（GitHub Copilot）跑在云端。浏览器控制部分完全跑在
+你的机器上。
+
+如果你要完全隔离网络的环境，把 Copilot 换成本地模型可以解决。我们
+今天还不支持这个，但智能体循环和 LLM 客户端是解耦的，做一个本地
+模型分支是可行的。
+
+## 支持哪些浏览器？
+
+基于 Chromium 的：**Chrome、Edge、Brave、Arc、Vivaldi**，以及大多数
+其他 Chromium 浏览器。Safari 和 Firefox 不支持（扩展模型不同，
+而且也没有 `chrome.debugger` 跨标签页 CDP 的等价物）。
+
+## Browy 能用哪些模型？
+
+你的 Copilot 订阅暴露出来的任何模型，目前包括 Claude Opus 4.7、
+Sonnet 4.6、Haiku 4.5、GPT-5.5、GPT-5.4、Codex 各版本、Gemini、
+Llama 系列。在 DevTools CLI 里用 `/model` 或者在设置里随时切换。
+
+## 我的数据去哪里？
+
+- 智能体读取的页面内容 → GitHub Copilot，和在终端里跑 `gh copilot`
+  走的是同一条通道
+- 工具调用（点击、输入的文字、执行的 JS）→ 通过 `chrome.debugger`
+  在你本地的浏览器里执行
+- 会话历史 → 存在本地的 `chrome.storage.local`（扩展）和
+  `~/.browy/host/`（原生主机日志）
+
+完整说明见[隐私与数据](/zh-cn/privacy/)。
+
+## 我能关掉某些工具吗？
+
+**能。** 打开扩展的 设置 → 工具。每一个浏览器工具默认开启，可以
+单独关闭；关掉的工具会从模型看到的 prompt 里被剥掉。主机工具
+（`bash`、`read_file`、`write_file`、`grep`、`glob`、`web_fetch`）
+默认关闭，可以按工具粒度开启。参见[可用工具](/zh-cn/tools/)。
+
+## 能在不打开浏览器标签页的情况下用 Browy 吗？
+
+今天不行。Browy 是浏览器智能体：它所有的工具都通过 `chrome.debugger`
+作用在一个真实的标签页上。如果你要的是纯终端的 Copilot 智能体，
+[GitHub Copilot CLI](https://docs.github.com/en/copilot/github-copilot-in-the-cli)
+就是干这个的。
+
+## Browy 是 GitHub Copilot 的竞品吗？
+
+不是。Browy 构建在 GitHub Copilot 之上。我们用
+[`@github/copilot-sdk`](https://www.npmjs.com/package/@github/copilot-sdk)
+访问大模型；Browy 在 GitHub 已有的智能体之上加了浏览器控制循环和
+UI 表面。
+
+## 我能贡献代码吗？
+
+可以，Apache-2.0 协议，欢迎贡献。参见
+[路线图与贡献](/zh-cn/roadmap/)和
+[GitHub 项目看板](https://github.com/orgs/BrowyHQ/projects)。
+打了 `good first issue` 标签的 issue 是入门首选。
+
+## 在哪里报 bug？
+
+[github.com/BrowyHQ/browy/issues](https://github.com/BrowyHQ/browy/issues)：
+请附上操作系统、浏览器、Browy 版本（`browy --version`）和
+`~/.browy/host/host.log` 的主机日志。

@@ -1,0 +1,135 @@
+---
+title: Browy DevTools CLI
+description: "Chrome DevTools 里的终端式智能体 REPL：斜杠命令、实时模型选择器、完整的 Browy 智能体。"
+---
+
+import { Aside, CardGrid, Card, LinkCard, Badge, Tabs, TabItem } from '@astrojs/starlight/components';
+import devtoolsPanel from '../../../assets/screenshots/devtools-panel.png';
+import { Image } from 'astro:assets';
+
+<Badge text="v0.1.x 起可用" variant="success" />
+
+Browy 扩展会注册一个 **DevTools 面板**，里面是一个终端风格的智能体
+REPL。在任何页面打开 Chrome DevTools，点 **Browy** 标签页，你就有
+了和侧边栏一样的智能体，只是改成 CLI 而不是对话气泡。
+
+<figure class="browy-frame">
+  <Image src={devtoolsPanel} alt="Browy 的 DevTools 面板：黑底绿字的 REPL，带 /help、/model 选择器，以及显示当前模型和被检查页面的状态栏" />
+  <figcaption>开着 <code>/model</code> 的 DevTools CLI。</figcaption>
+</figure>
+
+## 为什么是 DevTools 里的 CLI？
+
+<CardGrid>
+  <Card title="在你已经在的地方" icon="seti:html">
+    检查 DOM、看一眼 Network 面板，然后问智能体一个问题，
+    不用离开 DevTools。
+  </Card>
+  <Card title="终端的感觉" icon="seti:shell">
+    斜杠命令、历史、自动补全、`Ctrl+L` 清屏、`Esc` 取消。用过
+    `gh copilot` 的话，这里完全是熟悉的。
+  </Card>
+  <Card title="按标签页的会话" icon="approve-check">
+    每个 DevTools 面板和它被打开的标签页绑定。在多个标签页打开
+    DevTools，就可以并行运行多个独立的智能体。
+  </Card>
+  <Card title="同一个智能体" icon="rocket">
+    和侧边栏一样的后端、一样的工具、一样的会话存储，包括页面快照、
+    点击 / 输入工具和网络日志。
+  </Card>
+</CardGrid>
+
+## 斜杠命令
+
+输入 `/` 触发自动补全。别名：`/?` → `/help`，`/models` → `/model`。
+
+### 会话
+
+| 命令 | 作用 |
+|---|---|
+| `/help` | 列出所有可用命令 |
+| `/clear` | 清空滚动区（也可以用 `Ctrl+L`） |
+| `/new` | 开启一个新对话 |
+| `/reset` | 放弃当前会话，从头开始 |
+| `/cancel` | 取消进行中的智能体回合（也可以用 `Esc`） |
+| `/sessions` | 列出最近的对话会话 |
+| `/copy` | 把上一条回复复制到剪贴板 |
+| `/export` | 把滚动区导出成 `.txt` 文件 |
+| `/history` | 显示最近的输入历史 |
+
+### 模型与登录
+
+| 命令 | 作用 |
+|---|---|
+| `/model` | 显示当前模型 + 打开实时选择器 |
+| `/model <id>` | 直接切换模型，比如 `/model claude-haiku-4.5` |
+| `/login` | 触发 GitHub Copilot 的 device-flow 登录 |
+
+### 页面内省（不走智能体）
+
+下面这些命令在 DevTools 本地执行，不会调用模型。
+
+| 命令 | 作用 |
+|---|---|
+| `/url` | 打印当前被检查页面的 URL |
+| `/title` | 打印当前页面的 `<title>` |
+| `/tabs` | 列出打开的浏览器标签页（点击切换） |
+| `/snapshot` | 页面快速摘要（标题、URL、各级标题） |
+| `/dom <selector>` | 对 CSS 选择器做 `querySelectorAll` 摘要 |
+| `/eval <expr>` | 在被检查页面里执行 JavaScript |
+| `/js` | 切换 **JS REPL 模式**：每一行都在被检查页面里执行，直到再次 `/js` |
+
+### UI 与元数据
+
+| 命令 | 作用 |
+|---|---|
+| `/theme [auto\|dark\|light]` | 设置面板主题 |
+| `/version` | 显示版本信息 |
+| `/feedback` | 在 GitHub 上打开反馈页 |
+| `/exit` | 关闭此面板的提示（真正关闭请关掉 DevTools） |
+
+选择器目前可见的模型（取决于你的 Copilot 订阅）：
+
+- Claude 系列：`claude-sonnet-4.6`、`claude-sonnet-4.5`、`claude-haiku-4.5`、
+  `claude-opus-4.7`、`claude-opus-4.6`、`claude-opus-4.5`
+- GPT 系列：`gpt-5.5`、`gpt-5.4`、`gpt-5.3-codex`、`gpt-5.2-codex`、
+  `gpt-5.4-mini`、`gpt-5-mini`、`gpt-4.1`
+- 以及 `auto`，让 Copilot 自己挑
+
+工具栏里的模型徽章始终显示当前激活的选择。
+
+## 键盘快捷键
+
+| 按键 | 动作 |
+|---|---|
+| `Enter` | 发送 |
+| `Shift+Enter` | 在 prompt 里换行 |
+| `Esc` | 取消进行中的请求 |
+| `Ctrl+L` | 清空日志 |
+| `↑` / `↓` | 浏览历史（输入框为空时） |
+| `/` 然后 `Tab` | 自动补全斜杠命令 |
+
+## 什么时候用 CLI、什么时候用侧边栏？
+
+| 如果你想... | 用... |
+|---|---|
+| 一个常驻在页面边上的对话，截图内联显示 | **侧边栏** |
+| 留在 DevTools 里，针对被检查的目标快速发智能体提示 | **DevTools CLI** |
+| 多个智能体并行，每个绑定一个被检查的标签页 | **DevTools CLI**（在每个标签页里打开 DevTools） |
+| 和智能体结对编程实现一个功能 | **DevTools CLI** + 在设置里启用 `bash` 工具 |
+
+## CLI 即将到来的功能
+
+公开跟踪在
+[GitHub 项目看板](https://github.com/orgs/BrowyHQ/projects)上。
+
+- **接入正在运行的会话**：在面板里打开一个调试视图，查看正在
+  进行的 Browy 侧边栏会话。
+
+## 另见
+
+<CardGrid>
+  <LinkCard title="可用工具" href="/zh-cn/tools/" description="DevTools CLI 智能体可以调用的每一个工具。" />
+  <LinkCard title="第一次对话" href="/zh-cn/first-chat/" description="侧边栏或 DevTools CLI 里可以试的示例。" />
+  <LinkCard title="安装" href="/zh-cn/install/" description="把扩展和原生主机跑起来。" />
+</CardGrid>

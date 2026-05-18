@@ -1,0 +1,68 @@
+---
+title: 路线图与贡献
+description: Browy 是开放式开发的。真实的路线图在 GitHub 上。
+---
+
+import { CardGrid, LinkCard, Aside } from '@astrojs/starlight/components';
+
+Browy 是开源项目，开发过程完全公开。我们没有维护一份很快就会过期的
+手写路线图页面，项目的真实状态在 GitHub 上，工作发生在哪里、状态
+就在哪里。
+
+<CardGrid>
+  <LinkCard
+    title="项目看板"
+    href="https://github.com/orgs/BrowyHQ/projects"
+    description="正在进行什么、排队等什么、刚发布了什么。" />
+  <LinkCard
+    title="未关闭的 issue"
+    href="https://github.com/BrowyHQ/browy/issues"
+    description="Bug、想法、需求。点 👍 表达支持。" />
+  <LinkCard
+    title="讨论区"
+    href="https://github.com/BrowyHQ/browy/discussions"
+    description="更大的问题、设计提案、show and tell。" />
+  <LinkCard
+    title="里程碑"
+    href="https://github.com/BrowyHQ/browy/milestones"
+    description="按版本分组的 issue。" />
+  <LinkCard
+    title="更新日志"
+    href="/zh-cn/changelog/"
+    description="每个版本发布了什么。" />
+</CardGrid>
+
+<Aside type="tip" title="想影响优先级？">
+最快把某件事顶上队列的方法，是**开一个 issue 并把使用场景讲清楚**，
+或者在已有 issue 上点 👍。我们两个都看。
+</Aside>
+
+## 接下来要做的事
+
+我们想做的下一批东西，非详尽列表。每一项都对应一个跟踪用的 issue，
+你可以点 👍 让它往前排。
+
+- **智能体与人协作的 REPL**：DevTools 面板里的结对编程模式，智能体
+  和你轮流编辑同一个文件（Aider 风格）。
+- **接入正在运行的会话**：打开一个调试视图来查看和回放正在进行的
+  Browy 会话。
+- **macOS 与 Linux 安装脚本**：当前只有 Windows 的 PowerShell 一键
+  脚本，本地主机本身在三个平台都能跑，只是没有对应的包装脚本。
+- **本地模型分支**：智能体循环和 LLM 客户端是解耦的，把 Copilot 换
+  成本地 Ollama 风格的模型是可行的。
+- **配方 / 保存的工作流**：把一段对话变成一个命名的、可重用的流程
+  （"每周一总结一下我的 Gmail 未读"）。
+- **按站点划分的记忆空间**：把 `remember` 工具按来源域名隔离，
+  避免偏好在站点间泄漏。
+- **多标签页协作工具**：超出 `tabs.list` / `switch_tab` 的能力，
+  比如"打开这 5 个 URL，从每一个里抓 X"。
+- **基于截图的兜底验证**：针对 canvas / WebGL 等 DOM diff 无可读
+  内容的界面。
+
+## 贡献
+
+欢迎贡献。仓库里的
+[`CONTRIBUTING.md`](https://github.com/BrowyHQ/browy/blob/main/CONTRIBUTING.md)
+说明了开发环境。适合新手上手的 issue 在
+[issue 列表](https://github.com/BrowyHQ/browy/labels/good%20first%20issue)中
+打了 `good first issue` 标签。

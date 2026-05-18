@@ -1,0 +1,82 @@
+---
+title: 安全
+description: 如何报告漏洞，以及我们会怎么处理。
+---
+
+import { Aside, CardGrid, Card, LinkCard, Badge } from '@astrojs/starlight/components';
+
+<Aside type="caution" title="安全漏洞请不要开公开 issue">
+通过
+[GitHub Security Advisories](https://github.com/BrowyHQ/browy/security/advisories/new)
+私下提交。这会向维护者发一条私信，方便我们协调修复和披露。
+</Aside>
+
+<CardGrid>
+  <LinkCard title="报告漏洞" href="https://github.com/BrowyHQ/browy/security/advisories/new" description="GitHub Security Advisory：私密通道，敏感问题首选。" />
+</CardGrid>
+
+**响应目标：** 7 天内回复。<br/>
+**修复目标：** 视严重程度而定。
+
+## 在范围内
+
+任何能让攻击者做到以下事情的问题：
+
+- 读取或导出智能体沙箱目录（`~/.browy/data/`）之外的数据
+- 通过提示词注入绕过用户在设置里启用的工具，在用户机器上执行任意代码
+- 在用户机器上留下卸载后仍然存在的状态
+- 连接到本地注册的原生消息主机之外的主机
+
+## 不在范围内
+
+<Aside type="note" title="访问页面上的提示词注入">
+任何被访问页面上的提示词注入都可能引导智能体。这对所有驱动页面的
+智能体都是如此，威胁模型已经假设了这一点。Browy 默认关闭所有触碰
+主机的工具（`bash`、`read_file`、`write_file`、`grep`、`glob`、
+`web_fetch`），需要时在 [设置 → 工具](/zh-cn/tools/)里按工具开启，
+每个浏览器工具也都可以单独关闭。
+</Aside>
+
+第三方依赖（Chrome、Node.js、GitHub Copilot CLI）里的问题请上报到
+对应项目。
+
+## 我们会做什么
+
+<CardGrid>
+  <Card title="修复并发布" icon="rocket">
+    修复一落地就发一个安全版本。
+  </Card>
+  <Card title="加回归测试" icon="approve-check">
+    如果问题可以稳定复现，会加一个测试避免它再回来。
+  </Card>
+  <Card title="鸣谢报告者" icon="seti:github">
+    在[更新日志](/zh-cn/changelog/)里署名（征得本人同意）。
+  </Card>
+  <Card title="必要时回移" icon="warning">
+    如果上一个小版本仍在被广泛使用、且问题严重，我们会做 backport。
+  </Card>
+</CardGrid>
+
+## 纵深防御说明
+
+针对用户：
+
+<CardGrid>
+  <Card title="检查启用了哪些工具" icon="setting">
+    **设置 → 工具**是智能体可以调用哪些浏览器工具的唯一来源。
+    在严格的场景下可以关掉 `evaluate_js` 或 `screenshot`。
+  </Card>
+  <Card title="主机端工具默认关闭" icon="warning">
+    `bash`、`read_file`、`write_file`、`grep`、`glob`、`web_fetch`
+    访问的是你的机器，而不是浏览器标签页。需要时在
+    设置 → 工具 → 主机（进阶）按工具开启。
+  </Card>
+  <Card title="不要执行不可信的 JavaScript" icon="warning">
+    不要让智能体（通过 `evaluate_js` 或 `run_script`）执行你不信任
+    来源的代码。
+  </Card>
+  <Card title="留意调试横幅" icon="warning">
+    *"Browy started debugging..."* 横幅表示一个会话正在进行。
+    如果不是你启动的，断开连接。
+  </Card>
+</CardGrid>

@@ -1,0 +1,173 @@
+---
+title: 你的第一次对话
+description: 两分钟看完 Browy 真正能做什么。
+---
+
+import { Card, CardGrid, LinkCard, Aside, Steps, Badge } from '@astrojs/starlight/components';
+import panelEmpty from '../../../assets/screenshots/panel-empty.png';
+import panelSummarize from '../../../assets/screenshots/panel-summarize.png';
+import panelFillForm from '../../../assets/screenshots/panel-fillform.png';
+import panelNetwork from '../../../assets/screenshots/panel-network.png';
+import panelEvaluate from '../../../assets/screenshots/panel-evaluate.png';
+import { Image } from 'astro:assets';
+
+[安装](/zh-cn/install/)完成、并且登录之后，点击 Browy 图标打开
+侧边栏。可以试试下面任意一个。
+
+<figure class="browy-frame">
+  <Image src={panelEmpty} alt="刚安装好的 Browy 侧边栏，输入框聚焦" />
+  <figcaption>第一次启动的侧边栏。</figcaption>
+</figure>
+
+## "总结一下这个页面" <Badge text="视觉" />
+
+<div class="browy-pair">
+
+<figure class="browy-frame">
+  <Image src={panelSummarize} alt="Browy 用五条要点总结一篇维基百科文章" />
+  <figcaption>一次 <code>inspect_page</code> 调用，然后回答流式输出。</figcaption>
+</figure>
+
+<div>
+
+打开一篇长文章。在侧边栏里输入：
+
+> 总结这个页面，给我五条要点。
+
+智能体调用 `inspect_page` 工具抓取当前标签页的可访问性树（和屏幕
+阅读器用的是同一棵树），把它喂给模型，然后把答案流式输出到面板里。
+
+</div>
+</div>
+
+## "帮我把这个表单填好" <Badge text="动作" variant="success" />
+
+<div class="browy-pair">
+
+<figure class="browy-frame">
+  <Image src={panelFillForm} alt="Browy 在帮用户填一个注册表单，密码字段留空" />
+  <figcaption>字段是通过可访问性索引定位的，不靠 CSS 选择器。</figcaption>
+</figure>
+
+<div>
+
+打开一个表单（注册、问卷、设置页）然后告诉 Browy 你要填什么：
+
+> 我的名字是 Alex Doe，邮箱是 alex@example.com。用这些信息填表单，
+> 密码字段留给我，不要提交。
+
+智能体按可访问性索引点击每个字段、输入值、在提交前停下来让你检查。
+
+</div>
+</div>
+
+## "找一张最便宜的机票" <Badge text="多步" variant="note" />
+
+打开 google.com：
+
+> 搜一下 15 号 SFO 到 JFK 的机票，按价格排序，告诉我最便宜的那张。
+
+智能体会导航、输入查询、点进结果页、读取里面的内容，然后回报给你。
+
+## "检查一下网络请求" <Badge text="devtools" />
+
+<div class="browy-pair">
+
+<figure class="browy-frame">
+  <Image src={panelNetwork} alt="Browy 在报告一个面板页面上最慢的 API 调用" />
+  <figcaption>通过 Chrome DevTools Protocol 读取网络日志。</figcaption>
+</figure>
+
+<div>
+
+打开任意一个 Web 应用：
+
+> 我刷新这个页面的时候，最慢的 API 调用是哪个？告诉我 URL、状态码、
+> 耗时。
+
+智能体通过 Chrome DevTools Protocol 读取网络日志直接回答你，
+不需要你打开 DevTools。
+
+</div>
+</div>
+
+## "在页面里跑这段代码" <Badge text="evaluate_js" variant="success" />
+
+<div class="browy-pair">
+
+<figure class="browy-frame">
+  <Image src={panelEvaluate} alt="Browy 列出页面上缺少 aria-label 的按钮" />
+  <figcaption>在页面上下文里执行 JavaScript。支持顶层 <code>await</code>。</figcaption>
+</figure>
+
+<div>
+
+需要更深入地检查时，智能体可以直接在页面里执行 JavaScript：
+
+> 找出这个页面上所有没有 `aria-label` 的 `<button>`，告诉我它们
+> 上面写的是什么。
+
+`evaluate_js` 把你的请求作为 JS 在页面里跑，返回结果。
+
+</div>
+</div>
+
+## 工具栏
+
+侧边栏标题栏（右上角）有四个控件：
+
+| 按钮 | 作用 |
+|---|---|
+| **停止**（红色 ■） | 取消进行中的智能体回合。等同于 `Esc`。 |
+| **新对话** | 把当前对话保存到历史，开一段新的。 |
+| **历史** | 打开历史对话面板，可搜索的全部以往会话列表，可删除、可点击恢复。 |
+| **设置** | 打开扩展的选项页（模型选择、[工具开关](/zh-cn/tools/#configurable-per-tool-toggles)、登录、诊断）。 |
+
+下方的状态栏显示当前激活的浏览器、标签页标题，以及一个 **`N/M`**
+徽标表示连接上 / 已安装的浏览器数。点击设置可以唤起一个已安装但
+还没连上的浏览器。
+
+## 输入
+
+| 按键 | 动作 |
+|---|---|
+| `Enter` | 发送消息 |
+| `Shift+Enter` | 在 prompt 里换行 |
+| `Esc` | 取消进行中的回合 |
+
+输入框会随着内容自动增高，支持多行输入，智能体回复里的 Markdown
+（代码块、列表、链接、表格）会被正确渲染。
+
+## 一轮回合里发生的事
+
+- **流式文字**：模型边生成、面板边显示。
+- **工具调用**：以行内卡片形式显示（`▸ click_index { index: 14 }`）。
+  点击展开看参数和结果。失败的工具调用会带着错误信息一起显示。
+- **推理过程**（如果模型输出了的话）会在答案上方用暗色块显示。
+- **登录错误**直接显示一个 "Sign in to GitHub Copilot" 按钮，
+  不需要进设置页找。
+
+如果本地主机断开了，面板顶部会出现一个横幅提供一键重连
+（如果主机没装的话也会告诉你怎么装）。
+
+## 历史对话
+
+每段对话都保存在 `chrome.storage.local`，带标题、预览和时间戳。
+打开 **历史** 面板可以：
+
+- 按标题或预览文本筛选
+- 点击某一行恢复（智能体会重新绑定到那个会话 id）
+- 点 × 删除一段对话
+- **+ 新对话** 开一段新的
+
+历史只属于你当前的浏览器配置，永远不离开你的机器。
+
+## 接下来看什么？
+
+<CardGrid>
+  <LinkCard title="DevTools CLI" href="/zh-cn/devtools-cli/" description="Chrome DevTools 里的智能体：斜杠命令和终端的手感。" />
+  <LinkCard title="可用工具" href="/zh-cn/tools/" description="智能体能调用的每一个工具的参考。" />
+  <LinkCard title="权限说明" href="/zh-cn/permissions/" description="扩展能、和不能访问你浏览器的什么部分。" />
+  <LinkCard title="隐私与数据" href="/zh-cn/privacy/" description="什么留在你机器上，什么会离开。" />
+  <LinkCard title="路线图与贡献" href="/zh-cn/roadmap/" description="项目看板、未关闭的 issue、怎么贡献。" />
+</CardGrid>
