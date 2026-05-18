@@ -1,0 +1,234 @@
+---
+title: "Every $20 AI subscription costs about $100 to serve. The bill is coming."
+description: "AI labs are running an industry-wide loss-leader. Anthropic users burn $8 in compute per $1 of subscription revenue. Microsoft was losing $20+ on every GitHub Copilot seat. Agents broke the economics, and GitHub flips Copilot to usage-based billing on June 1."
+slug: blog/ai-subscription-bomb
+template: doc
+tableOfContents: false
+sidebar:
+  hidden: true
+head:
+  - tag: meta
+    attrs:
+      property: og:type
+      content: article
+  - tag: meta
+    attrs:
+      property: article:published_time
+      content: "2026-05-25T00:00:00Z"
+  - tag: meta
+    attrs:
+      property: article:author
+      content: "Ritabrata Maiti"
+  - tag: meta
+    attrs:
+      name: keywords
+      content: "ai subscriptions, github copilot, claude pro, chatgpt plus, anthropic, openai, ai pricing, agentic ai, enterprise ai, ai economics, usage-based billing"
+  - tag: script
+    attrs:
+      type: application/ld+json
+    content: |
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Every $20 AI subscription costs about $100 to serve. The bill is coming.",
+        "description": "AI labs are running an industry-wide loss-leader. The math worked when AI was a chatbot. Agents broke it, and GitHub flips Copilot to usage-based billing on June 1.",
+        "datePublished": "2026-05-25T00:00:00Z",
+        "dateModified": "2026-05-25T00:00:00Z",
+        "author": {
+          "@type": "Person",
+          "name": "Ritabrata Maiti",
+          "url": "https://github.com/ritabratamaiti"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Browy",
+          "url": "https://browyhq.github.io/"
+        },
+        "mainEntityOfPage": "https://browyhq.github.io/blog/ai-subscription-bomb/",
+        "image": "https://browyhq.github.io/og-default.png",
+        "inLanguage": "en",
+        "keywords": ["ai subscriptions", "github copilot", "agentic ai", "enterprise ai", "usage-based billing"]
+      }
+---
+
+import { YouTube } from 'astro-embed';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+<p style="opacity:0.7;font-size:0.9em;margin-top:-0.5em">By <a href="https://github.com/ritabratamaiti">Ritabrata Maiti</a> · <time datetime="2026-05-25">May 25, 2026</time> · 9 min read</p>
+
+<YouTube id="WPHYPeCjNv8" title="Every $20 AI subscription costs $100 to serve. The bill is coming." />
+
+A piece called
+[AI subscriptions are a ticking time bomb for enterprise](https://www.thestateofbrand.com/news/ai-subscription-time-bomb)
+made the rounds this week, and the headline is the right shape of the
+story. Every major AI lab is running an industry-wide loss-leader at a
+scale that does not really have a precedent. Your company's $20 Claude
+Pro seats and $20 ChatGPT Plus seats are being served at something
+like five times the cost the lab is collecting for them, and that
+arrangement is not stable.
+
+The price tag has not moved in three years. The product has changed
+completely.
+
+## The unit economics
+
+A Claude Pro seat is $20 a month and gives you Sonnet 4.6, Opus 4.6,
+file creation, code execution, web search. On the API, those same
+models cost $3 input and $15 output per million tokens for Sonnet,
+$5 input and $25 output for Opus. A knowledge worker running Claude
+for a few hours a day, uploading documents, drafting reports, easily
+moves through enough tokens that the API-priced equivalent of that
+seat sits somewhere between $200 and $400 a month.
+
+Microsoft was reportedly losing more than $20 a month on every GitHub
+Copilot seat. Power users were hitting $80. One widely-cited analysis
+found Anthropic was burning about $8 of compute for every $1 of
+subscription revenue. The $20 sticker has been frozen since 2022 and
+the models in that window picked up image generation, code execution,
+voice, agentic reasoning, web search, and a generational capability
+jump. The number stayed put.
+
+That is the whole story. Everything from here is mechanism.
+
+## What the subsidy was buying
+
+Cheap inference at consumer prices, deployed broadly to enterprises,
+was buying integration depth. The labs were not trying to make money
+on the seat. They were trying to make sure the seat existed in the
+first place, then make sure the company's marketing draft and the
+engineer's pull request review and the analyst's quarterly summary
+all happened through it. Once those workflows are load-bearing, the
+price can move. The dependency is the asset.
+
+You can see this in the language coming out of OpenAI. Nick Turley,
+their VP of product, described the subscription pricing as something
+they
+[stumbled into](https://danielmiessler.com/blog/ai-stops-being-artificially-cheap),
+and has floated phasing out unlimited plans entirely, comparing them
+to "unlimited electricity." Sam Altman said publicly that OpenAI now
+needs to become "an AI inference company," which is the polite version
+of admitting the consumer subscription was a customer-acquisition line
+item, not a P&L.
+
+The KPMG Q1 2026 pulse has U.S. organizations projecting average AI
+spending of $207 million over the next twelve months, roughly double
+the year before. A Goldman Sachs survey of large companies has most
+of them overrunning their AI budgets by orders of magnitude.
+Chandrasekaran, who runs AI and data at KPMG North America, told
+[Marketplace](https://www.marketplace.org/story/2026/04/24/how-much-is-too-much-to-spend-on-ai-tools)
+the quiet part: "Even a quarter or two ago nobody bothered about LLM
+consumption costs." It is the bother stage now.
+
+## Agents are what broke the math
+
+The reason the subsidy held as long as it did is that AI was a chatbot.
+You typed, it answered, you read the answer, repeat. A normal session
+was a few thousand tokens. Heavy use ran into the tens of thousands.
+At those volumes, $20 a seat was uncomfortable for the lab but not
+catastrophic.
+
+Agents do not look like that.
+
+A Claude Code session runs autonomously for an extended period. It
+reads files, writes files, runs commands, looks at the output, decides
+what to do next, repeats. Users have been
+[exhausting five-hour rate-limit windows in under ninety minutes](https://www.uncoveralpha.com/p/the-era-of-subsidized-ai-model-usage).
+Multiple agents in parallel on a single project multiply that. A
+developer running three or four concurrent coding agents is consuming
+something close to an order of magnitude more tokens than the same
+person in chat, and the subscription price on the seat is unchanged.
+
+GitHub took the obvious next step. On June 1, 2026, Copilot
+[moves to usage-based billing](https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/),
+specifically because the flat-fee model collapsed under agentic
+workloads. The announcement spelled it out: agentic usage is becoming
+the default, the inference demand is qualitatively different, the
+pricing has to follow.
+
+Everyone else will do the same thing on a delay.
+
+## The enterprise position
+
+This is where it gets ugly for organizations that have not done the
+work.
+
+Over the past two years, thousands of companies have woven $20 AI
+subscriptions deep into operations. Marketing drafts copy through
+ChatGPT Plus. Engineering writes and reviews code through Claude Pro.
+Research synthesizes documents. Customer success summarizes tickets.
+Finance models scenarios. The line items are budgeted at subsidized
+prices because that is what the bill currently says. The actual cost
+of the same workloads at API rates, if the lab were charging it, is
+fifteen to twenty times higher.
+
+When prices adjust, two things happen at once. The bill goes up, and
+the workflows are already too embedded to rip out. The subsidy creates
+the dependency, the dependency makes the price increase unavoidable.
+That is the trap, and there is no clever way out of it.
+
+The companies that survive this transition cleanly will be the ones
+that did the bookkeeping. Track per-team token consumption. Know which
+workflows are genuinely high-value and which are running Claude on
+something a 2018 script could have done. Have a sense of which
+subscriptions can move to per-seat billing if it has to, and which
+ones become structurally expensive overnight.
+
+The companies that don't survive cleanly will discover the bill in
+the third week of whichever month the subsidy ends, with no time to
+re-budget and no leverage to renegotiate.
+
+## What it means for agent tools
+
+The shake-out hits the agent tool market harder than it hits the labs.
+The labs are losing on the seat, but they own the inference. They can
+move the price. They can change the plan. They can introduce
+usage-based tiers and call them "for power users." The seat is still
+there at the end.
+
+The agent tool, the wrapper, the IDE plugin, the browser extension
+that uses the lab's API or subscription on your behalf, is in a worse
+position. If it has its own per-seat subscription, it is selling you
+something whose underlying cost just doubled, and it has to either eat
+that or pass it on. If it bills on its own meter on top of the lab's,
+it is asking enterprises to swallow a usage line item that already had
+no budget code.
+
+The agent tools that survive the next twelve months will be the ones
+that don't sell their own meter. Tools that piggyback on the
+subscription the user already has. Tools that don't introduce a second
+billing surface for finance to police. Tools whose cost curve is
+shaped by the lab's pricing, not by the tool's overhead.
+
+This is not a clever positioning argument. It is what happens to every
+software-on-top-of-software market when the underlying utility starts
+charging real prices. The tools that own the price stack survive. The
+tools that resell the utility at a markup get squeezed.
+
+## A note on what I work on
+
+I build [Browy](https://browy.dev), an open-source AI agent that lives
+in a Chrome side panel and a DevTools REPL. It drives the real browser
+tabs you have open. The thing it does not have is its own subscription.
+It uses your existing
+[GitHub Copilot](https://github.com/features/copilot) subscription for
+the model. The model call goes from your machine to GitHub, the answer
+comes back, the rest happens locally.
+
+When Copilot moves to usage-based billing on June 1, you pay GitHub
+the new rate, the same as you would have anyway. Browy doesn't sit
+between you and that bill. It doesn't add a per-seat charge of its
+own. It doesn't run a metered tier on top. That is not a special
+business decision on our end, it is the only decision that survives
+the shake-out described above. The tools that try to live on top of a
+collapsing subsidy by adding their own subsidy get squeezed twice.
+
+That is most of the story I wanted to put down. The original piece is
+[here](https://www.thestateofbrand.com/news/ai-subscription-time-bomb).
+The 30-second video version is at the top of this post.
+
+---
+
+<CardGrid>
+  <LinkCard title="← All posts" href="/blog/" description="Index of every post on the Browy blog." />
+  <LinkCard title="AI slop killed the open-source bug bounty" href="/blog/ai-slop-killed-the-bug-bounty/" description="Earlier essay on the other end of the same arc: cheap inference, not yet expensive." />
+</CardGrid>

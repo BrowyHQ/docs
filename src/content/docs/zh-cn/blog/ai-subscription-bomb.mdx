@@ -1,0 +1,196 @@
+---
+title: "每个 $20 的 AI 订阅，实验室要花大约 $100 来服务。账单要来了。"
+description: "AI 实验室在做行业级别的亏本买卖。Anthropic 用户每付 $1 订阅费就消耗 $8 的算力。微软在每个 GitHub Copilot 座位上亏 $20+。智能体打破了这套数学，6 月 1 日 GitHub 把 Copilot 切到按用量计费。"
+slug: zh-cn/blog/ai-subscription-bomb
+template: doc
+tableOfContents: false
+sidebar:
+  hidden: true
+head:
+  - tag: meta
+    attrs:
+      property: og:type
+      content: article
+  - tag: meta
+    attrs:
+      property: article:published_time
+      content: "2026-05-25T00:00:00Z"
+  - tag: meta
+    attrs:
+      property: article:author
+      content: "Ritabrata Maiti"
+  - tag: meta
+    attrs:
+      name: keywords
+      content: "AI 订阅, GitHub Copilot, Claude Pro, ChatGPT Plus, Anthropic, OpenAI, AI 定价, 智能体, 企业 AI, AI 经济学, 按用量计费"
+  - tag: script
+    attrs:
+      type: application/ld+json
+    content: |
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "每个 $20 的 AI 订阅，实验室要花大约 $100 来服务。账单要来了。",
+        "description": "AI 实验室在做行业级别的亏本买卖。聊天机器人时代这数学讲得通，智能体把它打破了。",
+        "datePublished": "2026-05-25T00:00:00Z",
+        "dateModified": "2026-05-25T00:00:00Z",
+        "author": {
+          "@type": "Person",
+          "name": "Ritabrata Maiti",
+          "url": "https://github.com/ritabratamaiti"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Browy",
+          "url": "https://browyhq.github.io/"
+        },
+        "mainEntityOfPage": "https://browyhq.github.io/zh-cn/blog/ai-subscription-bomb/",
+        "image": "https://browyhq.github.io/og-default.png",
+        "inLanguage": "zh-CN",
+        "keywords": ["AI 订阅", "GitHub Copilot", "智能体", "企业 AI", "按用量计费"]
+      }
+---
+
+import { YouTube } from 'astro-embed';
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+<p style="opacity:0.7;font-size:0.9em;margin-top:-0.5em">作者：<a href="https://github.com/ritabratamaiti">Ritabrata Maiti</a> · <time datetime="2026-05-25">2026 年 5 月 25 日</time> · 约 9 分钟阅读</p>
+
+<YouTube id="WPHYPeCjNv8" title="Every $20 AI subscription costs $100 to serve. The bill is coming." />
+
+这周一篇叫做
+[AI subscriptions are a ticking time bomb for enterprise](https://www.thestateofbrand.com/news/ai-subscription-time-bomb)
+的文章在传，标题大致是这个故事的正确形状。每一家主要的 AI 实验室
+都在跑一个行业规模、没什么先例的亏本买卖。你公司每个 $20 的 Claude
+Pro 座位、每个 $20 的 ChatGPT Plus 座位，实验室都在亏着钱给你提供，
+大约亏到 5 倍上下，这种安排不可持续。
+
+价格三年没动。产品已经完全换了一个。
+
+## 单位经济学
+
+一个 Claude Pro 座位是 $20 一个月，给你 Sonnet 4.6、Opus 4.6、文件
+创建、代码执行、网络搜索。同样的模型，按 API 计费，Sonnet 是每百万
+输入 token $3、输出 $15，Opus 是 $5 输入、$25 输出。一个知识工作者
+每天用 Claude 几个小时，上传文件、起草报告，很容易就跑过足够多的
+token，让那个座位按 API 价格折算下来落在 $200 到 $400 一个月之间。
+
+微软据说在每个 GitHub Copilot 座位上每月亏 $20 以上。重度用户能跑
+到 $80。一份被引用很多的分析发现 Anthropic 每收 $1 订阅费要烧大约
+$8 的算力。$20 这个数字从 2022 年起就没动过，而在这个窗口里模型
+长出了图像生成、代码执行、语音、智能体推理、网络搜索，以及一代
+能力跃迁。数字一直没动。
+
+故事核心就是这个。剩下的都是机制。
+
+## 补贴买的是什么
+
+按消费者价格便宜的推理，大规模铺到企业里，买的是集成深度。实验室
+并不指望靠座位赚钱。它们要的是确保座位存在，然后确保公司的市场
+草稿、工程师的 PR 评审、分析师的季度总结，都通过它发生。一旦这些
+工作流变成承重的，价格就可以动。依赖本身就是资产。
+
+你可以从 OpenAI 的话里看到这层。他们的产品 VP Nick Turley 描述
+订阅定价是
+[他们撞上的](https://danielmiessler.com/blog/ai-stops-being-artificially-cheap)，
+还放风说要彻底淘汰不限量计划，把它们比作"不限量的电"。Sam Altman
+公开说 OpenAI 现在需要变成"一家 AI 推理公司"，这是承认消费者订阅
+只是获客线，不是损益表项目的礼貌版本。
+
+KPMG 2026 年 Q1 的脉搏报告里，美国机构未来 12 个月预计平均 AI 支出
+$2.07 亿，大约是上一年的两倍。Goldman Sachs 一份针对大公司的调查
+显示，大部分公司的 AI 预算已经超支几个数量级。KPMG 北美 AI 与数据
+实验室的负责人 Chandrasekaran 对
+[Marketplace](https://www.marketplace.org/story/2026/04/24/how-much-is-too-much-to-spend-on-ai-tools)
+讲了那句潜台词："就在一两个季度前，根本没人在意 LLM 消耗成本。"
+现在进入"在意"阶段了。
+
+## 智能体打破了数学
+
+补贴撑了这么久的原因是 AI 是聊天机器人。你打字、它回答、你读完、
+重复。一次普通会话是几千 token。重度使用是几万。在这种量级下，
+$20 一个座位让实验室不舒服，但还没到灾难性。
+
+智能体看起来不是这样。
+
+一个 Claude Code 会话会自主跑一段时间。它读文件、写文件、执行命令、
+看输出、决定下一步、循环。用户已经在
+[90 分钟内耗掉 5 小时的限速窗口](https://www.uncoveralpha.com/p/the-era-of-subsidized-ai-model-usage)。
+一个项目上并行跑多个智能体把这个倍乘掉。一个开发者并行跑三四个
+编程智能体，消耗的 token 接近聊天形态的一个数量级以上，而那个座位
+的订阅价没变。
+
+GitHub 做了下一步明显该做的事。2026 年 6 月 1 日，Copilot
+[切到按用量计费](https://github.blog/news-insights/company-news/github-copilot-is-moving-to-usage-based-billing/)，
+原因正是因为定额模式在智能体工作负载下崩了。声明里说得很清楚：
+智能体使用正在成为默认，推理需求在质上不同，定价必须跟上。
+
+其他所有家都会做同样的事，只是时间差。
+
+## 企业的位置
+
+这部分对那些没做功课的机构来说就比较难看了。
+
+过去两年，成千上万家公司把 $20 一个月的 AI 订阅深度织进了运营。
+市场用 ChatGPT Plus 起草文案。工程用 Claude Pro 写和评审代码。
+研究做文档综述。客户成功总结工单。财务建模。这些预算行项目都是
+按被补贴的价格走的，因为账单当前就这么写着。同样的工作量按 API
+真实费率算，比它高出 15 到 20 倍。
+
+价格调整时，两件事会同时发生。账单涨，工作流已经太深以至于拔不
+出来。补贴造出依赖，依赖让涨价变得不可避免。这是陷阱，没什么聪明
+的绕开方式。
+
+平稳过渡到下一阶段的公司，是做过会计核算的那些。按团队跟踪 token
+消耗。知道哪些工作流真的有价值、哪些是在让 Claude 做一个 2018 年
+shell 脚本就能完成的事。心里有数哪些订阅在必要时可以转向按座位
+计费、哪些会一夜之间变得结构性昂贵。
+
+没法平稳过渡的公司，会在补贴结束那一个月的第三周发现账单，没有
+重新做预算的时间，没有重新谈判的筹码。
+
+## 这对智能体工具意味着什么
+
+抖落得最厉害的不是实验室，是智能体工具市场。实验室在座位上亏钱，
+但它们拥有推理。它们可以挪价格、改套餐、引入按用量计费的档位、
+管它叫"给重度用户的"。座位还在那里。
+
+智能体工具，也就是包在大模型外面的那一层，IDE 插件，浏览器扩展，
+凡是替你调实验室 API 或订阅的，处境更差。如果它有自己的按座位
+订阅，那它在卖一个底层成本刚翻倍的东西，它要么自己吃下来、要么
+传导出去。如果它在实验室计费之上加自己的计量表，那是在让企业
+吞下一个本来就没预算编号的按用量计费项目。
+
+接下来 12 个月活下来的智能体工具，会是不卖自己计量表的那些。
+那些搭在用户已经付费的订阅上的工具。那些不引入第二个计费面让财务
+去管的工具。那些成本曲线由实验室定价决定、不被自己的开销塑形的
+工具。
+
+这不是个聪明的定位话术。这是软件叠加软件的市场，每次底层公用事业
+开始收真实价格时都会发生的事。拥有定价层的工具活下来。在公用事业
+上面加价转售的工具被挤掉。
+
+## 关于我在做的东西
+
+我做 [Browy](https://browy.dev)，一个开源 AI 智能体，住在 Chrome
+侧边栏和 DevTools REPL 里。它驱动你真实打开的浏览器标签页。它
+没有的东西是自己的订阅。它用你已有的
+[GitHub Copilot](https://github.com/features/copilot) 订阅做模型
+调用。模型调用从你的机器出去到 GitHub，答案返回来，其他都本地发生。
+
+6 月 1 日 Copilot 切到按用量计费，你按新费率付给 GitHub，原本也是
+要付的那个数。Browy 不坐在你和那张账单中间。它不加自己的按座位
+收费。它不在上面跑一档按用量计费。这不是我们这边做了一个特别的
+商业决定，这是上面那个抖落场景里唯一活得下来的决定。试图通过加
+自己一层补贴来活在崩塌的补贴之上的工具，会被挤压两次。
+
+故事我想记下来的部分大概就是这些。原文在
+[这里](https://www.thestateofbrand.com/news/ai-subscription-time-bomb)。
+30 秒视频版本在文章顶部。
+
+---
+
+<CardGrid>
+  <LinkCard title="← 所有文章" href="/zh-cn/blog/" description="Browy 博客上所有文章的索引。" />
+  <LinkCard title="AI slop 杀死了开源漏洞赏金" href="/zh-cn/blog/ai-slop-killed-the-bug-bounty/" description="同一条弧线的另一端：那时候推理还很便宜。" />
+</CardGrid>
