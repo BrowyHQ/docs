@@ -54,7 +54,7 @@ const SCENARIOS = [
     file: 'panel-summarize.png',
     desc: 'Summarize Wikipedia article',
     height: 660,
-    infobar: { browser: 'Chrome', tabs: '7 tabs', title: 'Photosynthesis — Wikipedia', host: 'live' },
+    infobar: { browser: 'Chrome', tabs: '7 tabs', title: 'Photosynthesis - Wikipedia', host: 'live' },
     msgsHTML:
       userBub('Summarize this page in 5 bullets.') +
       asstBub(
@@ -63,7 +63,7 @@ const SCENARIOS = [
   <li>Photosynthesis converts light energy into chemical energy stored as glucose, mostly in plants, algae, and some bacteria.</li>
   <li>It happens in chloroplasts, using <strong>chlorophyll</strong> to capture photons in the visible spectrum.</li>
   <li>The light-dependent reactions split water and produce ATP and NADPH, releasing O₂ as a byproduct.</li>
-  <li>The Calvin cycle uses that ATP/NADPH to fix CO₂ into sugar via the enzyme <em>RuBisCO</em>.</li>
+  <li>The Calvin cycle uses that ATP and NADPH to fix CO₂ into sugar via the enzyme <em>RuBisCO</em>.</li>
   <li>Net equation: <code>6CO₂ + 6H₂O + light → C₆H₁₂O₆ + 6O₂</code>.</li>
 </ul>`,
         toolStep({ name: 'snapshot', preview: '4,127 elements, 38 headings', status: 'done', ms: 142 })
@@ -73,11 +73,11 @@ const SCENARIOS = [
     file: 'panel-fillform.png',
     desc: 'Fill out a form',
     height: 600,
-    infobar: { browser: 'Chrome', tabs: '4 tabs', title: 'Sign up — Linear', host: 'live' },
+    infobar: { browser: 'Chrome', tabs: '4 tabs', title: 'Sign up - Linear', host: 'live' },
     msgsHTML:
-      userBub("My name is Alex Doe, my email is alex@example.com. Fill out this form with that info — leave the password field for me. Don't submit.") +
+      userBub("My name is Alex Doe, my email is alex@example.com. Fill out this form. Leave the password field blank. Do not submit.") +
       asstBub(
-        `<p>Done — filled name and email, left password blank. The Sign up button is at index <code>[12]</code> when you're ready.</p>`,
+        `<p>Done. Filled the name and email; left the password blank. The Sign up button is at index <code>[12]</code> when you're ready.</p>`,
         toolStep({ name: 'snapshot', preview: '63 elements, 3 inputs found', status: 'done', ms: 98 }) +
         toolStep({ name: 'type', args: '[3], "Alex Doe"', preview: 'Filled name field', status: 'done', ms: 41 }) +
         toolStep({ name: 'type', args: '[7], "alex@example.com"', preview: 'Filled email field', status: 'done', ms: 38 })
@@ -87,13 +87,13 @@ const SCENARIOS = [
     file: 'panel-network.png',
     desc: 'Inspect network log',
     height: 540,
-    infobar: { browser: 'Edge', tabs: '12 tabs', title: 'Dashboard — Linear', host: 'live' },
+    infobar: { browser: 'Edge', tabs: '12 tabs', title: 'Dashboard - Linear', host: 'live' },
     msgsHTML:
-      userBub("What's the slowest API call on this page when I refresh? Show me URL, status, and time.") +
+      userBub("What's the slowest API call on this page when I refresh? Show me the URL, status, and time.") +
       asstBub(
         `<p>The slowest call is:</p>
 <pre><code>GET https://api.linear.app/graphql
-status 200 — 1,847 ms</code></pre>
+status 200, 1,847 ms</code></pre>
 <p>It's a GraphQL query for the dashboard widgets. The next slowest are <code>/me</code> (412ms) and <code>/notifications</code> (288ms).</p>`,
         toolStep({ name: 'navigate', args: 'reload', preview: 'Page reloaded', status: 'done', ms: 1923 }) +
         toolStep({ name: 'network_log', preview: '47 requests, 3 over 200ms', status: 'done', ms: 12 })
@@ -109,10 +109,10 @@ status 200 — 1,847 ms</code></pre>
       asstBub(
         `<p>Found <strong>4 buttons</strong> without an <code>aria-label</code>:</p>
 <ol>
-  <li><code>"+"</code> — top nav, "create new" menu</li>
-  <li><code>"⋯"</code> — repo header overflow menu</li>
-  <li><code>"Code ▾"</code> — clone-options dropdown</li>
-  <li><code>""</code> — empty button at the bottom of the sidebar (icon-only "settings", probably needs a label)</li>
+  <li><code>"+"</code>: top nav, "create new" menu</li>
+  <li><code>"⋯"</code>: repo header overflow menu</li>
+  <li><code>"Code ▾"</code>: clone-options dropdown</li>
+  <li><code>""</code>: empty button at the bottom of the sidebar (icon-only "settings", probably needs a label)</li>
 </ol>
 <p>Want me to <a href="#">file an issue</a> for the empty one?</p>`,
         toolStep({ name: 'evaluate_js', args: '[...document.querySelectorAll("button")]…', preview: 'Returned 4 entries', status: 'done', ms: 67 })
